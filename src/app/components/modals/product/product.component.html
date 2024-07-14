@@ -1,0 +1,102 @@
+<div
+  class="fixed inset-0 z-50 bg-gray-600 bg-opacity-50 flex items-center justify-center overflow-auto py-10"
+>
+  <div
+    class="relative mx-auto p-5 border w-[600px] shadow-lg rounded-md bg-white"
+  >
+    <div class="mt-3 text-center">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          {{
+            product.id ? "Editar Tipo de Producto" : "Nuevo Tipo de Producto"
+          }}
+        </h3>
+        <button
+          (click)="closeModal()"
+          class="text-gray-500 hover:text-gray-700 w-7 border border-slate-500 rounded-full"
+        >
+          <fa-icon [icon]="faTimes"></fa-icon>
+        </button>
+      </div>
+      <hr class="h-[1px] bg-slate-200 my-4" />
+      <form class="w-full" (ngSubmit)="saveProduct()">
+        <div class="mt-2">
+          <div class="flex w-full items-center justify-between gap-4">
+            <div class="mb-4 w-1/2">
+              <label class="block text-left text-sm font-medium text-gray-700"
+                >Nombre:
+              </label>
+              <input
+                type="text"
+                [(ngModel)]="product.name"
+                name="name"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+              />
+            </div>
+            <div class="mb-4 w-1/2">
+              <label class="block text-sm font-medium text-gray-700 text-left"
+                >Descripcion:</label
+              >
+              <input
+                type="text"
+                [(ngModel)]="product.description"
+                name="description"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+              />
+            </div>
+          </div>
+          <div class="flex w-full items-center justify-between gap-4">
+            
+            <div class="mb-4 w-1/2">
+              <label class="block text-sm font-medium text-gray-700 text-left"
+                >Precio:</label
+              >
+              <input
+                type="number"
+                [(ngModel)]="product.price"
+                name="price"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+              />
+            </div>
+          </div>
+          <div class="flex flex-col w-full items-center gap-4">
+            <div class="mb-4 w-full">
+              <label class="block text-left text-sm font-medium text-gray-700"
+                >Imagen:
+              </label>
+              <input
+                type="file"
+                (change)="captureImg($event)"
+                name="img"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+              />
+            </div>
+            @if (preview) 
+            {
+              <div class="mb-4 w-full flex justify-center items-center">
+                <img src="" alt="" width="200" [src]="preview">
+              </div>
+            }
+            
+          </div>
+          
+        </div>
+        <div class="mt-4 flex items-center justify-end gap-4">
+          <button
+            class="bg-green-600 text-white rounded-lg py-2 px-3"
+            type="submit"
+          >
+            Guardar
+          </button>
+          <button
+            class="bg-red-600 text-white rounded-lg py-2 px-3"
+            type="button"
+            (click)="closeModal()"
+          >
+            Cerrar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

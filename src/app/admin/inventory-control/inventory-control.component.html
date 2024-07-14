@@ -1,0 +1,48 @@
+<div class="flex flex-col lg:flex-row">
+  <!-- Product List -->
+  <div class="flex-1 p-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 relative">
+    @for (detailedProduct of detailedProducts; track $index) {
+        <div class="bg-white shadow-md rounded-lg overflow-hidden relative">
+          <img class="w-full h-32 object-cover p-3" [src]="detailedProduct.product.img" alt="Burger" />
+          <div class="p-4 flex flex-col">
+            <h3 class="text-lg font-semibold">{{ detailedProduct.product.name }}</h3>
+            <div class="flex items-center justify-center mt-2">
+              <button (click)="addToOrder(detailedProduct)" class="bg-red-500 rounded-lg py-2 px-3 text-white hover:bg-red-700">Añadir</button>
+            </div>
+          </div>
+          <p class="absolute top-0 left-0 bg-red-500 text-white py-1 px-2 rounded-md m-2">{{ detailedProduct.product.price | currency }}</p>
+          <p class="absolute w-24 top-32 left-20 bg-slate-500 text-white py-1 px-2 rounded-md">P: {{ detailedProduct.provider.name }}</p>
+        </div>
+     
+    }
+  </div>
+  </div>
+
+  <!-- Order List -->
+  <div class="w-full lg:w-1/3 bg-white shadow-md rounded-lg p-4">
+    <h3 class="text-lg font-semibold">Lista de Pedidos</h3>
+    <div class="mt-4">
+      <div *ngFor="let orderItem of orderList" class="flex justify-between items-center border-b py-2">
+        <div class="text-gray-800">{{ orderItem.product.product.name }}</div>
+        <div class="flex items-center">
+          <button (click)="decrementQuantity(orderItem)">-</button>
+          <span class="mx-2">{{ orderItem.quantity }}</span>
+          <button (click)="incrementQuantity(orderItem)">+</button>
+        </div>
+        <div class="text-gray-800">${{ (orderItem.product.product.price * orderItem.quantity).toFixed(2) }}</div>
+        <button (click)="removeFromOrder(orderItem)" class="bg-red-500 text-white p-1 rounded">
+          <fa-icon [icon]="faTrash"></fa-icon>
+        </button>
+      </div>
+      <div class="flex flex-col border-b py-2 gap-4">
+        <div class="flex items-center justify-end">
+          <div class="text-gray-800">Total ${{ getTotalCost() }}</div>
+        </div>
+        @if(orderList && orderList.length > 0){
+          <button (click)="addToInventory()" class="bg-blue-500 hover:bg-blue-700 text-white rounded-lg py-4">Agregar al Inventario</button>
+        }
+      </div>
+    </div>
+  </div>
+</div>
