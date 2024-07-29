@@ -1,94 +1,110 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { ProductService } from '../../../services/product.service';
-import { ProvidersService } from '../../../services/providers.service';
-import { CategoryService } from '../../../services/category.service';
-import { Product } from '../../../interfaces/product';
-import { Category } from '../../../interfaces/category';
-import { Provider } from '../../../interfaces/provider';
 import { ValidationErrorComponent } from '../../validation-error/validation-error.component';
+import { ProductService } from '../../../services/api/product.service';
+import { ProvidersService } from '../../../services/api/providers.service';
+import { CategoryService } from '../../../services/api/category.service';
+import { Product, ProductResponse } from '../../../core/interfaces/product';
+import { Category, CategoryResponse } from '../../../core/interfaces/category';
+import { Provider, ProviderResponse } from '../../../core/interfaces/provider';
+import { ButtonFormComponent } from '../../buttons/button-form/button-form.component';
+import { faSave } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'app-detailed-product-modal',
   standalone: true,
-  imports: [FontAwesomeModule, ReactiveFormsModule, ValidationErrorComponent],
-  templateUrl: './detailed-product.component.html'
+  imports: [FontAwesomeModule, ReactiveFormsModule, ValidationErrorComponent, ButtonFormComponent],
+  templateUrl: './detailed-product.component.html',
 })
 export class DetailedProductModalComponent {
-  
-  faTimes = faTimes
+  faTimes = faTimes;
+  faSave = faSave
 
-  private productServide = inject(ProductService)
-  private providerService =inject(ProvidersService)
-  private categoryService =inject(CategoryService)
-  private fb = inject(FormBuilder)
+  private productServide = inject(ProductService);
+  private providerService = inject(ProvidersService);
+  private categoryService = inject(CategoryService);
 
-
-  products: Product[] = []
-  categories: Category[] = []
-  providers: Provider[] = []
-  detailedProductForm!: FormGroup
+  products: Product[] = [];
+  categories: Category[] = [];
+  providers: Provider[] = [];
+  detailedProductForm: FormGroup;
 
   @Input() detailedProduct: any;
 
-  @Output() save = new EventEmitter<any>()
-  @Output() close = new EventEmitter<void>()
-  @Input() isLoading: boolean = false
+  @Output() save = new EventEmitter<any>();
+  @Output() close = new EventEmitter<void>();
+  @Input() isLoading: boolean = false;
 
-  ngOnInit(){
-    this.loadCategories()
-    this.loadProducts()
-    this.loadProviders()
+  get product_idFb() {
+    return this.detailedProductForm.controls['product_id'];
+  }
+  get category_idFb() {
+    return this.detailedProductForm.controls['category_id'];
+  }
+  get provider_idFb() {
+    return this.detailedProductForm.controls['provider_id'];
+  }
 
-    this.detailedProductForm = this.fb.group({
-      product_id: ['', [Validators.required]],
-      category_id: ['', [Validators.required]],
-      provider_id: ['', [Validators.required]]
-    })
+  constructor(private formBuilder: FormBuilder){
+    this.detailedProductForm = this.formBuilder.group({
+      product_id: [null, [Validators.required]],
+      category_id: [null, [Validators.required]],
+      provider_id: [null, [Validators.required]],
+    });
+  }
 
+  ngOnInit() {
+    this.loadCategories();
+    this.loadProducts();
+    this.loadProviders();
     if(this.detailedProduct){
       this.detailedProductForm.patchValue(this.detailedProduct)
     }
   }
 
   saveProduct() {
-    if(this.detailedProductForm.valid){
-      this.save.emit(this.detailedProductForm.value)
-    }else{
-      this.detailedProduct.markAllAsTouched()
+    if(!this.detailedProductForm.valid){
+      this.detailedProductForm.markAllAsTouched()
+      this.detailedProductForm.markAsDirty()
+      return
     }
+
+    const updateDetailedProduct = { ...this.detailedProduct, ...this.detailedProductForm.value }
+    this.save.emit(updateDetailedProduct)
+    console.log(updateDetailedProduct)
   }
 
   closeModal() {
-    this.close.emit()
+    this.close.emit();
   }
 
-  loadProducts(){
-    this.productServide.getProducts().subscribe(
-      (data) => {
-        this.products = data
-      }
-    )
+  loadProducts() {
+    this.productServide.getProducts().subscribe((response: ProductResponse) => {
+      this.products = response.data;
+    });
   }
 
-  loadCategories(){
-    this.categoryService.getCategories().subscribe(
-      (data) => {
-        this.categories = data
-      }
-    )
+  loadCategories() {
+    this.categoryService
+      .getCategories()
+      .subscribe((response: CategoryResponse) => {
+        this.categories = response.data;
+      });
   }
 
   loadProviders() {
-    this.providerService.getProviders().subscribe(
-      (data) => {
-        this.providers = data
-      }
-    )
+    this.providerService
+      .getProviders()
+      .subscribe((response: ProviderResponse) => {
+        this.providers = response.data;
+      });
   }
-
-
 }

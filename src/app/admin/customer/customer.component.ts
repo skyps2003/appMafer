@@ -1,21 +1,25 @@
-import { Customer } from './../../interfaces/customer';
 import { Component, inject } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NotificationService } from '../../services/notification-service.service';
-import { faArrowDown, faPlus, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { NotificationService } from '../../services/helpers/notification-service.service';
+import {
+  faArrowDown,
+  faPlus,
+  faTimes,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
-import { CustomerService } from '../../services/customer.service';
+import { CustomerService } from '../../services/api/customer.service';
 import Swal from 'sweetalert2';
 import { CustomerComponentModal } from '../../components/modals/customer/customer.component';
+import { Customer } from '../../core/interfaces/customer';
 
 @Component({
   selector: 'app-customer',
   standalone: true,
   imports: [FontAwesomeModule, CustomerComponentModal],
-  templateUrl: './customer.component.html'
+  templateUrl: './customer.component.html',
 })
 export class CustomerComponent {
-  
   customers: Customer[] = [];
   filteredCustomers: Customer[] = [];
   selectCustomer: any = null;
@@ -29,7 +33,7 @@ export class CustomerComponent {
   faTrash = faTrash;
   faTimes = faTimes;
   private customerService = inject(CustomerService);
-  private notificationService = inject(NotificationService)
+  private notificationService = inject(NotificationService);
 
   ngOnInit(): void {
     this.loadCustomers();
@@ -51,9 +55,10 @@ export class CustomerComponent {
     searchTerm = searchTerm.toLowerCase();
 
     if (searchTerm) {
-      this.filteredCustomers = this.customers.filter(customer =>
-        customer.name.toLowerCase().includes(searchTerm) ||
-        customer.email.toLowerCase().includes(searchTerm)
+      this.filteredCustomers = this.customers.filter(
+        (customer) =>
+          customer.name.toLowerCase().includes(searchTerm) ||
+          customer.email.toLowerCase().includes(searchTerm)
       );
     } else {
       this.filteredCustomers = [...this.customers];
@@ -68,7 +73,7 @@ export class CustomerComponent {
           surName: '',
           addres: '',
           email: '',
-          gender: 0
+          gender: 0,
         };
     this.isEditing = !!customer;
     this.isModalOpen = true;
@@ -86,7 +91,7 @@ export class CustomerComponent {
       surName: '',
       addres: '',
       email: '',
-      gender: 0
+      gender: 0,
     };
   }
 
@@ -120,7 +125,9 @@ export class CustomerComponent {
         (error) => {
           console.error('Error adding person', error);
           this.isLoading = false;
-          this.notificationService.showErrorToast('Hubo un error al intentar crear el usuario.');
+          this.notificationService.showErrorToast(
+            'Hubo un error al intentar crear el usuario.'
+          );
         }
       );
     }

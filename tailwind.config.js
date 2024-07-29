@@ -58,7 +58,10 @@ module.exports = {
       },
       backgroundSize: {
         full: "100%",
-      },
+       },
+      backgroundImage: {
+        'login': "url('/assets/img/fondo1.jpg')"
+      }
     },
   },
   plugins: [],

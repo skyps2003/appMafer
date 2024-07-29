@@ -1,45 +1,79 @@
-import { DetailedProductService } from './../../services/detailed-product.service';
+import { DetailedProductService } from '../../services/api/detailed-product.service';
 import { Component, inject } from '@angular/core';
-import { DetailedProduct } from '../../interfaces/detailed-product';
-import { faArrowDown, faPlus, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
+import {
+  faArrowDown,
+  faPlus,
+  faShower,
+  faTimes,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
+import { faEye, faPenToSquare } from '@fortawesome/free-regular-svg-icons';
 import Swal from 'sweetalert2';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DetailedProductModalComponent } from '../../components/modals/detailed-product/detailed-product.component';
+import { DetailedProduct, DetailedProductResponse } from '../../core/interfaces/detailed-product';
+import { NgxPaginationModule, PaginationService } from 'ngx-pagination';
+import { search } from '../../utils/search';
+import { PAGINATION_CONFIG } from '../../utils/pagination';
+import { NotificationService } from '../../services/helpers/notification-service.service';
+import { ShowDetailedProductComponent } from '../../components/modals/show-detailed-product/show-detailed-product.component';
 
 @Component({
   selector: 'app-detailed-product',
   standalone: true,
-  imports: [FontAwesomeModule, DetailedProductModalComponent],
-  templateUrl: './detailed-product.component.html'
+  imports: [FontAwesomeModule, DetailedProductModalComponent, NgxPaginationModule, ShowDetailedProductComponent],
+  templateUrl: './detailed-product.component.html',
+  providers: [PaginationService, {provide: 'paginationConfig', useValue: PAGINATION_CONFIG}]
 })
 export class DetailedProductComponent {
+
+  private notification = inject(NotificationService)
+
   detailedProducts: DetailedProduct[] = [];
+  filteredDetailedProduct: DetailedProduct[] = []
   selectDetailedProduct: any = null;
   isModalOpen: boolean = false;
+  isDetailModalOpen: boolean = false;
   isEditing: boolean = false;
   isLoading: boolean = false;
 
   faArrowDown = faArrowDown;
-  faPenToSquare = faPenToSquare;
+  faEye = faEye
   faPlus = faPlus;
   faTrash = faTrash;
   faTimes = faTimes;
+
+  page: number = 1
+  pageSize: number = 5
+
+  columns: { key: keyof DetailedProduct; label: string; sortable?: boolean; type?: 'text' | 'image' }[] = [
+    { key: 'id', label: 'Id', sortable: true, type: "text" },
+    { key: 'product', label: 'Nombre', sortable: false, type: "text" }
+  ]
+
   private detailedProductService = inject(DetailedProductService);
 
   ngOnInit(): void {
     this.loadDetailedProducts();
   }
 
+
   loadDetailedProducts() {
     this.detailedProductService.getDetailedProducts().subscribe(
-      (data) => {
-        this.detailedProducts = data;
+      (response: DetailedProductResponse) => {
+        this.detailedProducts = response.data;
+        this.filteredDetailedProduct = response.data
+        console.log(this.filteredDetailedProduct)
       },
       (error) => {
         console.error(error);
       }
     );
+  }
+
+  onSearch(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.filteredDetailedProduct = search(this.detailedProducts, input.value || 'product.name', );
   }
 
   openModal(detailedProduct: any = null) {
@@ -49,7 +83,7 @@ export class DetailedProductComponent {
           name: '',
           description: '',
           img: '',
-          price: ''
+          price: '',
         };
     this.isEditing = !!detailedProduct;
     this.isModalOpen = true;
@@ -66,43 +100,47 @@ export class DetailedProductComponent {
       name: '',
       description: '',
       img: '',
-      price: ''
+      price: '',
     };
   }
 
   saveDetailedProduct(detailedProduct: DetailedProduct) {
     this.isLoading = true;
     if (this.isEditing) {
-      this.detailedProductService.updateDetailedProduct(detailedProduct.id, detailedProduct).subscribe(
-        (data) => {
-          this.loadDetailedProducts();
-          this.closeModal();
-          this.isLoading = false;
-          this.showSuccessToast(data.message);
-        },
-        (error) => {
-          console.error('Error updating person', error);
-          this.isLoading = false;
-          this.showErrorToast(
-            'Hubo un error al intentar actualizar el tipo de producto.'
-          );
-        }
-      );
+      this.detailedProductService
+        .updateDetailedProduct(detailedProduct.id, detailedProduct)
+        .subscribe(
+          (data) => {
+            this.loadDetailedProducts();
+            this.closeModal();
+            this.isLoading = false;
+            this.notification.showSuccessToast(data.message);
+          },
+          (error) => {
+            console.error('Error updating person', error);
+            this.isLoading = false;
+            this.notification.showErrorToast(
+              'Hubo un error al intentar actualizar el tipo de producto.'
+            );
+          }
+        );
     } else {
-      this.detailedProductService.createDetailedProduct(detailedProduct).subscribe(
-        (data) => {
-          this.loadDetailedProducts();
-          this.clearForm();
-          this.closeModal();
-          this.isLoading = false;
-          this.showSuccessToast(data.message);
-        },
-        (error) => {
-          console.error('Error adding person', error);
-          this.isLoading = false;
-          this.showErrorToast('Hubo un error al intentar crear el producto.');
-        }
-      );
+      this.detailedProductService
+        .createDetailedProduct(detailedProduct)
+        .subscribe(
+          (data) => {
+            this.loadDetailedProducts();
+            this.clearForm();
+            this.closeModal();
+            this.isLoading = false;
+            this.notification.showSuccessToast(data.message);
+          },
+          (error) => {
+            console.error('Error adding person', error);
+            this.isLoading = false;
+            this.notification.showErrorToast('Hubo un error al intentar crear el producto.');
+          }
+        );
     }
   }
 
@@ -122,12 +160,12 @@ export class DetailedProductComponent {
           (data) => {
             this.loadDetailedProducts();
             this.isLoading = false;
-            this.showSuccessToast(data.message);
+            this.notification.showSuccessToast(data.message);
           },
           (error) => {
             console.error('Error deleting product type', error);
             this.isLoading = false;
-            this.showErrorToast(
+            this.notification.showErrorToast(
               'Hubo un error al intentar eliminar el producto.'
             );
           }
@@ -136,41 +174,15 @@ export class DetailedProductComponent {
     });
   }
 
-  showSuccessToast(message: string) {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      },
-    });
-
-    Toast.fire({
-      icon: 'success',
-      title: message,
-    });
+  openShowModal(detailedProduct: DetailedProduct) {
+    this.selectDetailedProduct = detailedProduct;
+    this.isDetailModalOpen = true;
   }
 
-  showErrorToast(message: string) {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      },
-    });
-
-    Toast.fire({
-      icon: 'error',
-      title: message,
-    });
+  closeShowModal() {
+    this.selectDetailedProduct = null;
+    this.isDetailModalOpen = false;
   }
+
+  
 }

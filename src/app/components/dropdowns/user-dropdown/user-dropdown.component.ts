@@ -1,14 +1,15 @@
-import { AuthService } from './../../../services/auth.service';
 import { NgClass } from "@angular/common";
 import { Component, AfterViewInit, ViewChild, ElementRef, inject } from "@angular/core";
 import { createPopper } from "@popperjs/core";
-import { User } from '../../../interfaces/user';
+import { AuthService } from "../../../services/auth/auth.service";
+import { User } from "../../../core/interfaces/user";
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: "app-user-dropdown",
   templateUrl: "./user-dropdown.component.html",
   standalone: true,
-  imports: [NgClass]
+  imports: [NgClass, RouterLink]
 })
 export class UserDropdownComponent implements AfterViewInit {
   dropdownPopoverShow = false;

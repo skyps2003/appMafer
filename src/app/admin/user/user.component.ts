@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { User } from '../../interfaces/user';
 import {
   faArrowDown,
   faPlus,
@@ -7,11 +6,12 @@ import {
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
-import { UserService } from '../../services/user.service';
+import { UserService } from '../../services/api/user.service';
 import Swal from 'sweetalert2';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { UserComponentModal } from '../../components/modals/user/user.component';
-import { NotificationService } from '../../services/notification-service.service';
+import { NotificationService } from '../../services/helpers/notification-service.service';
+import { User, UserResponse } from '../../core/interfaces/user';
 
 @Component({
   selector: 'app-user',
@@ -33,7 +33,7 @@ export class UserComponent {
   faTrash = faTrash;
   faTimes = faTimes;
   private userService = inject(UserService);
-  private notificationService = inject(NotificationService)
+  private notificationService = inject(NotificationService);
 
   ngOnInit(): void {
     this.loadUsers();
@@ -41,10 +41,9 @@ export class UserComponent {
 
   loadUsers() {
     this.userService.getUsers().subscribe(
-      (data) => {
-        this.users = data;
-        this.filteredUsers = data;
-        console.log(data)
+      (response: UserResponse) => {
+        this.users = response.data;
+        this.filteredUsers = response.data;
       },
       (error) => {
         console.error(error);
@@ -56,10 +55,11 @@ export class UserComponent {
     searchTerm = searchTerm.toLowerCase();
 
     if (searchTerm) {
-      this.filteredUsers = this.users.filter(user =>
-        user.name.toLowerCase().includes(searchTerm) ||
-        user.surName.toLowerCase().includes(searchTerm) ||
-        user.email.toLowerCase().includes(searchTerm)
+      this.filteredUsers = this.users.filter(
+        (user) =>
+          user.name.toLowerCase().includes(searchTerm) ||
+          user.surName.toLowerCase().includes(searchTerm) ||
+          user.email.toLowerCase().includes(searchTerm)
       );
     } else {
       this.filteredUsers = [...this.users];
@@ -74,7 +74,7 @@ export class UserComponent {
           surName: '',
           addres: '',
           email: '',
-          gender: 0
+          gender: 0,
         };
     this.isEditing = !!user;
     this.isModalOpen = true;
@@ -92,7 +92,7 @@ export class UserComponent {
       surName: '',
       addres: '',
       email: '',
-      gender: 0
+      gender: 0,
     };
   }
 
@@ -126,7 +126,9 @@ export class UserComponent {
         (error) => {
           console.error('Error adding person', error);
           this.isLoading = false;
-          this.notificationService.showErrorToast('Hubo un error al intentar crear el usuario.');
+          this.notificationService.showErrorToast(
+            'Hubo un error al intentar crear el usuario.'
+          );
         }
       );
     }
@@ -161,6 +163,4 @@ export class UserComponent {
       }
     });
   }
-
-  
 }

@@ -1,18 +1,23 @@
 import { Component, inject } from '@angular/core';
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
-import { faArrowDown, faPlus, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
+import {
+  faArrowDown,
+  faPlus,
+  faTimes,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
-import { UserRoleService } from '../../services/user-role.service';
-import { UserRole } from '../../interfaces/user-role';
+import { UserRoleService } from '../../services/api/user-role.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NotificationService } from '../../services/notification-service.service';
+import { NotificationService } from '../../services/helpers/notification-service.service';
 import { UserRolComponentModal } from '../../components/modals/user-rol/user-rol.component';
+import { UserRole } from '../../core/interfaces/user-role';
 
 @Component({
   selector: 'app-rol',
   standalone: true,
   imports: [FontAwesomeModule, UserRolComponentModal],
-  templateUrl: './rol.component.html'
+  templateUrl: './rol.component.html',
 })
 export class RolComponent {
   userRoles: UserRole[] = [];
@@ -29,7 +34,7 @@ export class RolComponent {
   faTimes = faTimes;
 
   private userRoleService = inject(UserRoleService);
-  private notificationService = inject(NotificationService)
+  private notificationService = inject(NotificationService);
 
   ngOnInit(): void {
     this.loadUserRoles();
@@ -39,7 +44,6 @@ export class RolComponent {
     this.userRoleService.getUserRoles().subscribe(
       (data) => {
         this.userRoles = data;
-        console.log(data)
       },
       (error) => {
         console.error(error);
@@ -62,11 +66,7 @@ export class RolComponent {
   // }
 
   openModal(user: any = null) {
-    this.selectUserRole = user
-      ? { ...user }
-      : {
-          
-        };
+    this.selectUserRole = user ? { ...user } : {};
     this.isEditing = !!user;
     this.isModalOpen = true;
   }
@@ -78,9 +78,7 @@ export class RolComponent {
   }
 
   clearForm() {
-    this.selectUserRole = {
-      
-    };
+    this.selectUserRole = {};
   }
 
   saveUserRole(userRole: UserRole) {
@@ -176,6 +174,4 @@ export class RolComponent {
       }
     });
   }
-
- 
 }

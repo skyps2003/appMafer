@@ -12,7 +12,7 @@
       <div class="flex items-center justify-between">
         <div>
           <h2 class="capitalize text-md font-semibold">
-            Tabla de usuarios
+            Tabla de rol de usuario
           </h2>
         </div>
         <div>
@@ -114,17 +114,20 @@
                       </td>
 
                       <td
-                        class="px-4 py-4 text-sm whitespace-nowrap capitalize flex items-center justify-center"
+                        class="px-4 py-4 text-sm whitespace-nowrap capitalize "
                       >
+                      <div class="flex items-center justify-center">
                         @if (userRole.status === 1) {
-                            <button (click)="udpateRole(userRole.id)" class="bg-green-500 capitalize px-3 text-white rounded-lg py-2 text-center">
-                                Activo
-                            </button>
-                        }@else {
-                            <button (click)="udpateRole(userRole.id)" class="bg-red-500 capitalize px-3 text-white rounded-lg py-2 text-center">
-                                bloqueado
-                            </button>
-                        }
+                          <button (click)="udpateRole(userRole.id)" class="bg-green-500 capitalize px-3 text-white rounded-lg py-2 text-center">
+                              Activo
+                          </button>
+                      }@else {
+                          <button (click)="udpateRole(userRole.id)" class="bg-red-500 capitalize px-3 text-white rounded-lg py-2 text-center">
+                              bloqueado
+                          </button>
+                      }
+                      </div>
+                       
                       </td>
                       <td class="px-4 py-4 text-sm whitespace-nowrap">
                         <div class="flex items-center gap-x-6">

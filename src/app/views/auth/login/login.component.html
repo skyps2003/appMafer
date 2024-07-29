@@ -1,101 +1,92 @@
-<div class="container mx-auto px-4 h-full">
-  <div class="flex content-center items-center justify-center h-full">
-    <div class="w-full lg:w-4/12 px-4">
-      <div
-        class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0"
-      >
-        <div class="rounded-t mb-0 px-6 py-6">
-          <div class="text-center mb-3">
-            <h6 class="text-blueGray-500 text-sm font-bold">Sign in with</h6>
-          </div>
-          <div class="btn-wrapper text-center">
-            <button
-              class="bg-white active:bg-blueGray-50 text-blueGray-700 px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-              type="button"
-            >
-              <img alt="..." class="w-5 mr-1" src="assets/img/github.svg" />
-              Github
-            </button>
-            <button
-              class="bg-white active:bg-blueGray-50 text-blueGray-700 px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-              type="button"
-            >
-              <img alt="..." class="w-5 mr-1" src="assets/img/google.svg" />
-              Google
-            </button>
-          </div>
-          <hr class="mt-6 border-b-1 border-blueGray-300" />
-        </div>
-        <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
-          <div class="text-blueGray-400 text-center mb-3 font-bold">
-            <small>Or sign in with credentials</small>
-          </div>
-          <form (ngSubmit)="login()">
-            <div class="relative w-full mb-3">
-              <label
-                class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                htmlFor="grid-password"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                [(ngModel)] ="email"
-                name="email"
-                placeholder="Email"
-              />
-            </div>
+<div class="relative h-screen">
+  <div
+    class="container mx-auto px-4 h-full relative z-10 flex items-center justify-center"
+  >
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 h-full w-full">
+      <div class="hidden md:block"></div>
 
-            <div class="relative w-full mb-3">
-              <label
-                class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                htmlFor="grid-password"
-              >
-                Password
-              </label>
-              <input
-                type="password"
-                class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                [(ngModel)] ="password"
-                name="password"
-                placeholder="Password"
-              />
+      <div class="flex items-center justify-center h-full ">
+        <div class="w-full px-4 md:px-8 lg:px-12 max-w-lg">
+          <div
+            class="relative flex flex-col min-w-0 break-words w-full p-4 mb-6 rounded-xl bg-transparent backdrop-brightness-110 border-black shadow-black shadow-2xl"
+          >
+            <div class="rounded-t-xl mb-0">
+              <div class="text-center mb-3 py-4 bg-white rounded-lg uppercase">
+                <img src="./logo.png" alt="" class="h-24 w-full">
+              </div>
             </div>
-            <div>
-              <label class="inline-flex items-center cursor-pointer">
-                <input
-                  id="customCheckLogin"
-                  type="checkbox"
-                  class="form-checkbox border-0 text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150 rounded"
-                />
-                <span class="ml-2 text-sm font-semibold text-blueGray-600">
-                  Remember me
-                </span>
-              </label>
-            </div>
+            <div class="flex-auto  lg:px-6 py-6 pt-0 bg-white rounded-lg">
+              <div class="text-white text-center my-3">
+                <small class="font-mono text-lg font-bold text-red-700"
+                  >Ingrese sus credenciales</small
+                >
+              </div>
+              <form (ngSubmit)="login()">
+                <div class="relative w-full mb-3">
+                  <label
+                    class="block capitalize text-green-500 font-mono text-md font-bold mb-2 "
+                    htmlFor="email"
+                  >
+                    Correo
+                  </label>
+                  <input
+                    type="email"
+                    class="border-black border px-3 py-3 placeholder-slate-500 text-black font-mono bg-white rounded text-sm shadow-xl   w-full ease-linear transition-all duration-150  focus:outline-none"
+                    [(ngModel)]="email"
+                    name="email"
+                    placeholder="-- correo --"
+                  />
+                </div>
 
-            <div class="text-center mt-6">
-              <button
-                class="bg-blue-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                type="submit"
-              >
-                Sign In
-              </button>
+                <div class="relative w-full mb-3">
+                  <label
+                    class=" capitalize text-green-500 font-mono text-md font-bold mb-2"
+                    htmlFor="password"
+                  >
+                    Contraseña
+                  </label>
+                  <input
+                    type="password"
+                    class="border-black border px-3 py-3 placeholder-slate-500 text-black font-mono bg-white rounded text-sm shadow-xl   w-full ease-linear transition-all duration-150  focus:outline-none"
+                    [(ngModel)]="password"
+                    name="password"
+                    placeholder="-- contraseña --"
+                  />
+                </div>
+                <div class="flex items-start justify-between gap-3">
+                  <label class="inline-flex items-center cursor-pointer">
+                    <input
+                      id="customCheckLogin"
+                      [(ngModel)]="rememberMe"
+                      name="rememberMe"
+                      type="checkbox"
+                      class="form-checkbox border-0 text-slate-200 ml-1 w-5 h-5 ease-linear transition-all duration-150 rounded"
+                    />
+                    <span class="ml-2 text-sm font-semibold text-black">
+                      Recordar
+                    </span>
+                  </label>
+                  <label class="inline-flex items-center cursor-pointer">
+                    <button class="ml-2 text-sm font-semibold text-black">
+                      Olvido su contraseña?
+                    </button>
+                  </label>
+                </div>
+
+                <div class="text-center mt-6">
+                  <button
+                    class="bg-red-600 text-white active:bg-slate-200 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                    type="submit"
+                  >
+                    Iniciar Sesion
+                  </button>
+                </div>
+              </form>
             </div>
-          </form>
-        </div>
-      </div>
-      <div class="flex flex-wrap mt-6 relative">
-        <div class="w-1/2">
-          <a href="javascript:void(0)" class="text-blueGray-200">
-            <small>Forgot password?</small>
-          </a>
-        </div>
-        <div class="w-1/2 text-right">
-          <a [routerLink]="['/auth/register']" class="text-blueGray-200">
-            <small>Create new account</small>
-          </a>
+          </div>
+          <div class="flex flex-wrap mt-6 relative">
+            <!-- Sección opcional para enlaces adicionales -->
+          </div>
         </div>
       </div>
     </div>

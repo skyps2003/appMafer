@@ -1,0 +1,10 @@
+<!-- card.component.html -->
+<div class="border border-{{color}}-200 h-36 rounded-lg relative shadow-md">
+  <div class="flex items-center mb-4 p-4">
+    <fa-icon [icon]="icon" class="w-8 h-8 text-{{color}}-500 mr-4"></fa-icon>
+    <h2 class="text-lg font-semibold text-{{color}}-500">{{ title }}</h2>
+  </div>
+  <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/4 bg-{{color}}-500 flex w-2/3 h-24 rounded-md items-center justify-center">
+    <span class="text-white text-6xl font-serif">{{ amount }}</span>
+  </div>
+</div>
