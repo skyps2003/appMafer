@@ -35,6 +35,8 @@ export class ValidationErrorComponent {
         return `Este campo debe tener al menos ${errorValue.requiredLength} caracteres.`;
       case 'maxlength':
         return `Este campo debe tener como máximo ${errorValue.requiredLength} caracteres.`;
+      case 'pattern':
+        return `El formato del campo es inválido.`;
       default:
         return this.defaultMessages[errorKey] || 'Campo inválido';
     }
@@ -43,7 +45,8 @@ export class ValidationErrorComponent {
   private defaultMessages: ValidationMessages = {
     required: 'Este campo es obligatorio.',
     minlength: 'Este campo debe ser más largo.',
-    maxlength: 'Este campo debe ser más corto',
-    email: 'Ingrese una dirección de correo electrónico válida.'
+    maxlength: 'Este campo debe ser más corto.',
+    email: 'Ingrese una dirección de correo electrónico válida.',
+    pattern: 'El formato del campo es inválido.'
   };
 }

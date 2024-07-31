@@ -35,13 +35,13 @@ export class CustomerComponentModal {
     this.customerForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       surname: ['', [Validators.required, Validators.minLength(3)]],
-      dni: ['', [Validators.required]],
-      ruc: ['', [Validators.required]],
+      dni: ['', [Validators.required, Validators.pattern(/^\d{8}$/), Validators.minLength(8), Validators.maxLength(8)]],
+      ruc: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
       customer_type_id: ['', [Validators.required]],
       reason: ['', [Validators.required]],
       address: ['', [Validators.required]],
-      email: ['', [Validators.required]],
-      phone: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', [Validators.required, Validators.pattern(/^\d{9}$/), Validators.minLength(9), Validators.maxLength(9)]],
     });
 
     if (this.customer) {
@@ -56,7 +56,6 @@ export class CustomerComponentModal {
       this.save.emit(this.customerForm.value);
     } else {
       this.customerForm.markAllAsTouched();
-      console.log('hola');
     }
   }
 

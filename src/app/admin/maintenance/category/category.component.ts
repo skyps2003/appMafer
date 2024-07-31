@@ -100,7 +100,7 @@ export class CategoryComponent {
           (error) => {
             console.error('Error updating category', error);
             this.isLoading = false;
-            this.notification.showErrorToast('Hubo un error al intentar actualizar la categoria.');
+            this.notification.showErrorToast(error.error.message);
           }
         );
       } else {
@@ -118,9 +118,10 @@ export class CategoryComponent {
           this.notification.showSuccessToast(data.message);
         },
         (error) => {
-          console.error('Error adding category', error);
+          console.error('Error adding category', error.message);
           this.isLoading = false;
-          this.notification.showErrorToast('Hubo un error al intentar crear la categoria.');
+          this.notification.showErrorToast(error.error.message);
+          
         }
       );
     }

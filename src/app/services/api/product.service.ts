@@ -36,4 +36,10 @@ export class ProductService extends BaseService {
   deleteProduct(id: number): Observable<{ message: string }> {
     return this.http.delete<{ message: string }>(`${this.productURL}/${id}`, { headers: this.getAuthHeaders() });
   }
+
+  amountProduct(): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.productURL}/amount`,{}, {
+      headers: this.getAuthHeaders(),
+    });
+  }
 }

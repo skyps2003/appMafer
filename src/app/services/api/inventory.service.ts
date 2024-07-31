@@ -45,4 +45,9 @@ export class InventoryService extends BaseService{
       headers: this.getAuthHeaders(),
     });
   }
+  amountInventory(): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.inventoryURL}/amount`,{}, {
+      headers: this.getAuthHeaders(),
+    });
+  }
 }

@@ -46,4 +46,9 @@ export class CustomerService extends BaseService{
       headers: this.getAuthHeaders(),
     });
   }
+  amountCustomer(): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.customerURL}/amount`,{}, {
+      headers: this.getAuthHeaders(),
+    });
+  }
 }

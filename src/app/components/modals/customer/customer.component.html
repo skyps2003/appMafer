@@ -4,14 +4,14 @@
   <div
     class="relative mx-auto p-5 border w-[600px] max-h-[90vh] overflow-y-auto shadow-lg rounded-md bg-white"
   >
-    <div class="mt-3 text-center py-10">
+    <div class="mt-3 text-center py-2">
       <div class="flex items-center justify-between">
-        <h3 class="text-lg leading-6 font-medium text-gray-900">
-          {{ customerForm.get('id') ? "Editar Tipo de Producto" : "Nuevo Tipo de Producto" }}
+        <h3 class="text-lg leading-6 font-medium text-gray-900 capitalize">
+          {{ customerForm.get('id') ? "Editar cliente" : "Nuevo cliente" }}
         </h3>
         <button
           (click)="closeModal()"
-          class="text-gray-500 hover:text-gray-700 w-7 border border-slate-500 rounded-full"
+          class="bg-red-500 hover:bg-red-700 text-white h-8 w-8 rounded-full"
         >
           <fa-icon [icon]="faTimes"></fa-icon>
         </button>
@@ -21,52 +21,56 @@
         <div class="mt-2">
           <div class="flex w-full items-center justify-between gap-4">
             <div class="mb-4 w-1/2">
-              <label class="block text-left text-sm font-medium text-gray-700"
+              <label class="block font-mono text-left text-sm font-medium text-gray-700"
                 >Nombre:
               </label>
               <input
                 type="text"
                 formControlName="name"
                 name="name"
-                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                placeholder="-- Campo Obligatorio --"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 placeholder:text-center"
               />
               <app-validation-error [control]="customerForm.get('name')"></app-validation-error>
             </div>
             <div class="mb-4 w-1/2">
-              <label class="block text-sm font-medium text-gray-700 text-left"
+              <label class="block font-mono text-sm font-medium text-gray-700 text-left"
                 >Apellido:</label
               >
               <input
                 type="text"
                 formControlName="surname"
                 name="surname"
-                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                placeholder="-- Campo Obligatorio --"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 placeholder:text-center"
               />
               <app-validation-error [control]="customerForm.get('surname')"></app-validation-error>
             </div>
           </div>
           <div class="flex w-full items-center justify-between gap-4">
             <div class="mb-4 w-1/2">
-              <label class="block text-left text-sm font-medium text-gray-700"
+              <label class="block font-mono text-left text-sm font-medium text-gray-700"
                 >dni:
               </label>
               <input
                 type="text"
                 formControlName="dni"
                 name="dni"
-                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                placeholder="-- Campo Obligatorio --"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 placeholder:text-center"
               />
-              <app-validation-error [control]="customerForm.get('password')"></app-validation-error>
+              <app-validation-error [control]="customerForm.get('dni')"></app-validation-error>
             </div>
             <div class="mb-4 w-1/2">
-              <label class="block text-sm font-medium text-gray-700 text-left"
+              <label class="block font-mono text-sm font-medium text-gray-700 text-left"
                 >ruc:</label
               >
               <input
                 type="text"
                 formControlName="ruc"
                 name="ruc"
-                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                placeholder="-- Campo Obligatorio --"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 placeholder:text-center"
               />
               <app-validation-error [control]="customerForm.get('ruc')"></app-validation-error>
             </div>
@@ -74,26 +78,28 @@
           <div class="flex w-full items-center justify-between gap-4">
             
             <div class="mb-4 w-1/2">
-              <label class="block text-sm font-medium text-gray-700 text-left"
+              <label class="block font-mono text-sm font-medium text-gray-700 text-left"
                 >email:</label
               >
               <input
                 type="email"
                 formControlName="email"
                 name="email"
-                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                placeholder="-- Campo Obligatorio --"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 placeholder:text-center"
               />
               <app-validation-error [control]="customerForm.get('email')"></app-validation-error>
             </div>
             <div class="mb-4 w-1/2">
-                <label class="block text-sm font-medium text-gray-700 text-left"
+                <label class="block font-mono text-sm font-medium text-gray-700 text-left"
                   >Direccion:</label
                 >
                 <input
                   type="text"
                   formControlName="address"
                   name="address"
-                  class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                  placeholder="-- Campo Obligatorio --"
+                  class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 placeholder:text-center"
                 />
                 <app-validation-error [control]="customerForm.get('address')"></app-validation-error>
               </div>
@@ -102,8 +108,8 @@
             <div class="mb-4 w-full">
               <label
                 for="customer_type_id"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400 text-left"
-                >Selecione un tipo de producto</label
+                class="block font-mono mb-2 text-sm font-medium text-gray-900 dark:text-gray-400 text-left"
+                >Selecione el tipo de cliente</label
               >
               <select
                 id="customer_type_id"
@@ -111,7 +117,7 @@
                 name="customer_type_id"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               >
-                <option class="py-2 px-3" [value]="null" selected disabled>Seleccione un tipo de cliente</option>
+                <option class="py-2 px-3" value="" selected disabled>Seleccione un tipo de cliente</option>
                 
                 @for (customerType of customerTypes; track $index) {
                     <option class="py-2 px-3 capitalize" value="{{ customerType.id }}">{{ customerType.name }}</option>
@@ -123,29 +129,31 @@
            
            
           </div>
-          <div class="flex flex-col w-full items-center gap-4">
+          <div class="flex w-full items-center justify-between gap-4">
             <div class="mb-4 w-1/2">
-              <label class="block text-left text-sm font-medium text-gray-700"
+              <label class="block font-mono text-left text-sm font-medium text-gray-700"
                 >Razon:
               </label>
               <input
                 type="text"
                 name="reason"
                 formControlName="reason"
-                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                placeholder="-- Campo Obligatorio --"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 placeholder:text-center"
               />
               <app-validation-error [control]="customerForm.get('reason')"></app-validation-error>
             
             </div>
             <div class="mb-4 w-1/2">
-              <label class="block text-left text-sm font-medium text-gray-700"
+              <label class="block font-mono text-left text-sm font-medium text-gray-700"
                 >Telefono:
               </label>
               <input
                 type="text"
                 name="phone"
                 formControlName="phone"
-                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                placeholder="-- Campo Obligatorio --"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 placeholder:text-center"
               />
               <app-validation-error [control]="customerForm.get('phone')"></app-validation-error>
             

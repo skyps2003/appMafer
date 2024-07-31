@@ -45,4 +45,9 @@ export class DetailedProductService extends BaseService{
       headers: this.getAuthHeaders(),
     });
   }
+  amountDetailedProduct(): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.detailedProductURL}/amount`,{}, {
+      headers: this.getAuthHeaders(),
+    });
+  }
 }

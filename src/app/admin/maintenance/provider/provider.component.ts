@@ -113,7 +113,7 @@ export class ProviderComponent {
           console.error('Error updating person', error);
           this.isLoading = false;
           this.notification.showErrorToast(
-            'Hubo un error al intentar actualizar el proveedor.'
+            error.message
           );
         }
       );
@@ -127,9 +127,10 @@ export class ProviderComponent {
           this.notification.showSuccessToast(data.message);
         },
         (error) => {
-          console.error('Error adding person', error);
+          console.error('Error adding person', error.error.message);
           this.isLoading = false;
-          this.notification.showErrorToast('Hubo un error al intentar crear el proveedor.');
+          
+          this.notification.showErrorToast(error.error.message);
         }
       );
     }

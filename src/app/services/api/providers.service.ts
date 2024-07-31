@@ -54,4 +54,10 @@ export class ProvidersService extends BaseService {
     return this.http.get<any>(`${this.providerRUCURL}consultar-ruc/${ruc}`,
       { headers: this.getAuthHeaders() });
   }
+
+  amountProvider(): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.providerURL}/amount`,{}, {
+      headers: this.getAuthHeaders(),
+    });
+  }
 }

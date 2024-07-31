@@ -110,7 +110,7 @@ export class UserComponent {
           console.error('Error updating person', error);
           this.isLoading = false;
           this.notificationService.showErrorToast(
-            'Hubo un error al intentar actualizar el usuario.'
+            error.error.message
           );
         }
       );
@@ -127,7 +127,7 @@ export class UserComponent {
           console.error('Error adding person', error);
           this.isLoading = false;
           this.notificationService.showErrorToast(
-            'Hubo un error al intentar crear el usuario.'
+            error.error.message
           );
         }
       );

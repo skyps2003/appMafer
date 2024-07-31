@@ -113,7 +113,7 @@ export class ProductComponent {
         (error) => {
           console.error('Error updating product', error);
           this.isLoading = false;
-          this.showErrorToast('Hubo un error al intentar actualizar el producto.');
+          this.showErrorToast(error.error.message);
         }
       );
     } else {
@@ -128,7 +128,7 @@ export class ProductComponent {
         (error) => {
           console.error('Error adding product', error);
           this.isLoading = false;
-          this.showErrorToast('Hubo un error al intentar crear el producto.');
+          this.showErrorToast(error.error.message);
         }
       );
     }
