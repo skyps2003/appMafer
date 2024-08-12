@@ -1,48 +1,53 @@
-<section class="mt-3">
-  <div class="flex items-center justify-between">
-    <h2 class="text-xl font-semibold capitalize">Categoria</h2>
-    <button
-      (click)="openModal()"
-      class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md transition-colors"
-    >
-      <fa-icon [icon]="faPlus"></fa-icon> Nuevo
-    </button>
-  </div>
-  <div class="mt-3">
+@if(isLoadings) {
+  <app-loader></app-loader>
+}@else {
+  <section class="mt-3">
     <div class="flex items-center justify-between">
-      <div>
-        <label for="" class="capitalize text-md font-semibold">Mostrar: </label
-        ><input
-          id="itemsPerPage"
-          type="number"
-          min="1"
-          [(ngModel)]="pageSize"
-          (change)="onPageSizeChange()"
-          class="border border-slate-100 py-2 px-3 rounded-lg w-16"
-        />
-      </div>
-      <div>
-        <label class="capitalize text-md font-semibold" for="">Buscar: </label>
-        <input
-          class="border border-slate-100 py-2 px-3 rounded-lg"
-          type="search"
-          (input)="onSearch($event)"
-        />
-      </div>
+      <h2 class="text-xl font-semibold capitalize">Categoria</h2>
+      <button
+        (click)="openModal()"
+        class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md transition-colors"
+      >
+        <fa-icon [icon]="faPlus"></fa-icon> Nuevo
+      </button>
     </div>
-    <app-data-table
-      [items]="filteredCategories"
-      [columns]="columns"
-      (edit)="openModal($event)"
-      (delete)="deleteCategory($event.id)"
-    ></app-data-table>
-  </div>
-</section>
-@if(isModalOpen === true){
-<app-category-modal
-  [category]="selectCategory"
-  (save)="saveCategory($event)"
-  (close)="closeModal()"
-  [isLoading]="isLoading"
-></app-category-modal>
+    <div class="mt-3">
+      <div class="flex items-center justify-between">
+        <div>
+          <label for="" class="capitalize text-md font-semibold">Mostrar: </label
+          ><input
+            id="itemsPerPage"
+            type="number"
+            min="1"
+            [(ngModel)]="pageSize"
+            (change)="onPageSizeChange()"
+            class="border border-slate-100 py-2 px-3 rounded-lg w-16"
+          />
+        </div>
+        <div>
+          <label class="capitalize text-md font-semibold" for="">Buscar: </label>
+          <input
+            class="border border-slate-100 py-2 px-3 rounded-lg"
+            type="search"
+            (input)="onSearch($event)"
+          />
+        </div>
+      </div>
+      <app-data-table
+        [items]="filteredCategories"
+        [columns]="columns"
+        (edit)="openModal($event)"
+        (delete)="deleteCategory($event.id)"
+      ></app-data-table>
+    </div>
+  </section>
+  @if(isModalOpen === true){
+  <app-category-modal
+    [category]="selectCategory"
+    (save)="saveCategory($event)"
+    (close)="closeModal()"
+    [isLoading]="isLoading"
+  ></app-category-modal>
+  }
+  
 }

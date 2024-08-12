@@ -13,11 +13,12 @@ import { Product, ProductResponse } from '../../../core/interfaces/product';
 import { ProductService } from '../../../services/api/product.service';
 import { search } from '../../../utils/search';
 import { DataTableComponent } from '../../../components/tables/data-table/data-table.component';
+import { LoaderComponent } from '../../../components/loader/loader.component';
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [FontAwesomeModule, ProductModalComponent, DataTableComponent],
+  imports: [FontAwesomeModule, ProductModalComponent, DataTableComponent, LoaderComponent],
   templateUrl: './product.component.html',
 })
 export class ProductComponent {
@@ -28,6 +29,7 @@ export class ProductComponent {
   isModalOpen: boolean = false;
   isEditing: boolean = false;
   isLoading: boolean = false;
+  isLoadings: boolean = false;
 
   faArrowDown = faArrowDown;
   faPenToSquare = faPenToSquare;
@@ -53,10 +55,12 @@ export class ProductComponent {
   }
 
   loadProducts() {
+    this.isLoadings = true
     this.productService.getProducts().subscribe(
       (response: ProductResponse) => {
         this.products = response.data; 
         this.filteredProducts = response.data
+        this.isLoadings = false
       },
       (error) => {
         console.error(error);
@@ -153,9 +157,8 @@ export class ProductComponent {
             this.showSuccessToast(data.message);
           },
           (error) => {
-            console.error('Error deleting product', error);
             this.isLoading = false;
-            this.showErrorToast('Hubo un error al intentar eliminar el producto.');
+            this.showErrorToast(error.error.message);
           }
         );
       }

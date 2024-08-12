@@ -12,11 +12,12 @@ import { search } from '../../../utils/search';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
 import { DataTableComponent } from '../../../components/tables/data-table/data-table.component';
+import { LoaderComponent } from '../../../components/loader/loader.component';
 
 @Component({
   selector: 'app-category',
   standalone: true,
-  imports: [CategoryComponentModal, FontAwesomeModule, NgxPaginationModule, FormsModule, DataTableComponent],
+  imports: [CategoryComponentModal, FontAwesomeModule, NgxPaginationModule, FormsModule, DataTableComponent, LoaderComponent],
   templateUrl: './category.component.html'
 })
 export class CategoryComponent {
@@ -26,6 +27,7 @@ export class CategoryComponent {
   isModalOpen = false;
   isEditing = false;
   isLoading = false;
+  isLoadings = false;
 
   columns: { key: keyof Category; label: string; sortable?: boolean; type?: 'text' | 'image' }[] = [
     { key: 'id', label: 'Id', sortable: true, type: "text" },
@@ -50,10 +52,12 @@ export class CategoryComponent {
   }
 
   loadCategories(): void {
+    this.isLoadings = true
     this.categoryService.getCategories().subscribe(
       (response: CategoryResponse) => {
         this.categories = response.data;
         this.filteredCategories = response.data;
+        this.isLoadings = false
       },
       (error) => {
         console.error(error);
@@ -147,9 +151,8 @@ export class CategoryComponent {
               this.notification.showSuccessToast(data.message);
             },
             (error) => {
-              console.error('Error deleting category', error);
               this.isLoading = false;
-              this.notification.showErrorToast('Hubo un error al intentar eliminar la categoría.');
+              this.notification.showErrorToast(error.error.message);
             }
           );
         }

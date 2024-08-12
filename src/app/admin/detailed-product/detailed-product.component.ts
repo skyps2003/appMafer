@@ -17,11 +17,12 @@ import { search } from '../../utils/search';
 import { PAGINATION_CONFIG } from '../../utils/pagination';
 import { NotificationService } from '../../services/helpers/notification-service.service';
 import { ShowDetailedProductComponent } from '../../components/modals/show-detailed-product/show-detailed-product.component';
+import { LoaderComponent } from '../../components/loader/loader.component';
 
 @Component({
   selector: 'app-detailed-product',
   standalone: true,
-  imports: [FontAwesomeModule, DetailedProductModalComponent, NgxPaginationModule, ShowDetailedProductComponent],
+  imports: [FontAwesomeModule, DetailedProductModalComponent, NgxPaginationModule, ShowDetailedProductComponent, LoaderComponent],
   templateUrl: './detailed-product.component.html',
   providers: [PaginationService, {provide: 'paginationConfig', useValue: PAGINATION_CONFIG}]
 })
@@ -36,6 +37,7 @@ export class DetailedProductComponent {
   isDetailModalOpen: boolean = false;
   isEditing: boolean = false;
   isLoading: boolean = false;
+  isLoadings: boolean = false;
 
   faArrowDown = faArrowDown;
   faEye = faEye
@@ -59,11 +61,12 @@ export class DetailedProductComponent {
 
 
   loadDetailedProducts() {
+    this.isLoadings = true
     this.detailedProductService.getDetailedProducts().subscribe(
       (response: DetailedProductResponse) => {
         this.detailedProducts = response.data;
         this.filteredDetailedProduct = response.data
-        console.log(this.filteredDetailedProduct)
+        this.isLoadings = false
       },
       (error) => {
         console.error(error);
@@ -163,10 +166,9 @@ export class DetailedProductComponent {
             this.notification.showSuccessToast(data.message);
           },
           (error) => {
-            console.error('Error deleting product type', error);
             this.isLoading = false;
             this.notification.showErrorToast(
-              'Hubo un error al intentar eliminar el producto.'
+              error.error.message
             );
           }
         );

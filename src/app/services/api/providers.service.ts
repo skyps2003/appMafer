@@ -3,13 +3,14 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseService } from '../helpers/base.service';
 import { Provider, ProviderResponse } from '../../core/interfaces/provider';
+import { API_URL } from '../../utils/apiurl';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProvidersService extends BaseService {
-  private providerURL = 'http://127.0.0.1:8000/api/provider';
-  private providerRUCURL = 'http://127.0.0.1:8000/api/';
+  private providerURL = API_URL+'provider';
+  private providerRUCURL = API_URL;
   private http = inject(HttpClient);
 
   protected getToken(): string | null {

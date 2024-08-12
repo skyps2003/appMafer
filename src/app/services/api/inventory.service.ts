@@ -3,13 +3,14 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Inventory, InventoryResponse } from '../../core/interfaces/inventory';
 import { BaseService } from '../helpers/base.service';
+import { API_URL } from '../../utils/apiurl';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InventoryService extends BaseService{
 
-  private inventoryURL = "http://127.0.0.1:8000/api/v1/inventory"
+  private inventoryURL = API_URL+"inventory"
   private http = inject(HttpClient)
 
   protected getToken(): string | null {
@@ -49,5 +50,14 @@ export class InventoryService extends BaseService{
     return this.http.post<{ message: string }>(`${this.inventoryURL}/amount`,{}, {
       headers: this.getAuthHeaders(),
     });
+  }
+  updateStock(id: number, stock: number): Observable<{ message: string }> {
+    const url = `${this.inventoryURL}/updateStock/${id}/stock/${stock}`;
+    return this.http.put<{ message: string }>(url, {});
+  }
+
+  updateStatus(id: number): Observable<{ message: string }> {
+    const url = `${this.inventoryURL}/updateStatus/${id}`;
+    return this.http.put<{ message: string }>(url, {});
   }
 }

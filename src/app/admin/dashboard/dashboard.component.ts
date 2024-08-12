@@ -9,11 +9,13 @@ import { ProductService } from '../../services/api/product.service';
 import { ProvidersService } from '../../services/api/providers.service';
 import { InventoryService } from '../../services/api/inventory.service';
 import { DetailedProductService } from '../../services/api/detailed-product.service';
+import { forkJoin } from 'rxjs';
+import { LoaderComponent } from '../../components/loader/loader.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [AdminNavbarComponent, FontAwesomeModule, CardComponent],
+  imports: [AdminNavbarComponent, FontAwesomeModule, CardComponent, LoaderComponent],
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit {
@@ -30,51 +32,34 @@ export class DashboardComponent implements OnInit {
   aProvider: any = '';
   aInventory: any = '';
   aDetailedProduct: any = '';
-
-  amountCategory() {
-    this.categoryService.amountCategory().subscribe((data) => {
-      this.aCategory = data;
-      console.log('Category Data:', data);
-    });
-  }
-  amountCustomer() {
-    this.customerService.amountCustomer().subscribe((data) => {
-      this.aCustomer = data;
-      console.log('Customer Data:', data);
-    });
-  }
-  amountProduct() {
-    this.productService.amountProduct().subscribe((data) => {
-      this.aProduct = data;
-      console.log('Product Data:', data);
-    });
-  }
-  amountProvider() {
-    this.providerService.amountProvider().subscribe((data) => {
-      this.aProvider = data;
-      console.log('Provider Data:', data);
-    });
-  }
-  amountInventory() {
-    this.inventoryService.amountInventory().subscribe((data) => {
-      this.aInventory = data;
-      console.log('Inventory Data:', data);
-    });
-  }
-  amountDetailedProduct() {
-    this.detailedProductService.amountDetailedProduct().subscribe((data) => {
-      this.aDetailedProduct = data;
-      console.log('Detailed Product Data:', data);
-    });
-  }
+  isLoading: boolean = false
 
   ngOnInit() {
-    this.amountCategory();
-    this.amountCustomer();
-    this.amountProduct();
-    this.amountProvider();
-    this.amountInventory();
-    this.amountDetailedProduct();
+    this.isLoading = true; 
+  
+    forkJoin({
+      category: this.categoryService.amountCategory(),
+      customer: this.customerService.amountCustomer(),
+      product: this.productService.amountProduct(),
+      provider: this.providerService.amountProvider(),
+      inventory: this.inventoryService.amountInventory(),
+      detailedProduct: this.detailedProductService.amountDetailedProduct()
+    }).subscribe({
+      next: (results) => {
+        this.aCategory = results.category;
+        this.aCustomer = results.customer;
+        this.aProduct = results.product;
+        this.aProvider = results.provider;
+        this.aInventory = results.inventory;
+        this.aDetailedProduct = results.detailedProduct;
+      },
+      error: (err) => {
+        console.error('Error loading data:', err);
+      },
+      complete: () => {
+        this.isLoading = false; 
+      }
+    });
   }
 
   faBox = faBox;

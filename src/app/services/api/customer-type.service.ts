@@ -3,13 +3,14 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CustomerType } from '../../core/interfaces/customer-type';
 import { BaseService } from '../helpers/base.service';
+import { API_URL } from '../../utils/apiurl';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CustomerTypeService extends BaseService {
 
-  private customerURL = "http://127.0.0.1:8000/api/v1/customerType"
+  private customerURL = API_URL+"customerType"
 
   private http = inject(HttpClient)
 

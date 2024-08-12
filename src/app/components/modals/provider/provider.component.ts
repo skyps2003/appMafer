@@ -15,6 +15,7 @@ import { ValidationErrorComponent } from '../../validation-error/validation-erro
 import { ProvidersService } from '../../../services/api/providers.service';
 import { Provider } from '../../../core/interfaces/provider';
 import { NotificationService } from '../../../services/helpers/notification-service.service';
+import { LoaderComponent } from '../../loader/loader.component';
 
 @Component({
   selector: 'app-provider-modal',
@@ -26,6 +27,7 @@ import { NotificationService } from '../../../services/helpers/notification-serv
     FormsModule,
     ReactiveFormsModule,
     ButtonFormComponent,
+    LoaderComponent
   ],
   templateUrl: './provider.component.html',
 })
@@ -33,6 +35,7 @@ export class ProviderComponentModal {
   faTimes = faTimes;
   faSave = faSave;
   rucInput: string = '';
+  isLoadings: boolean = false
 
   @Input() provider: any = {
     id: null,
@@ -113,6 +116,7 @@ export class ProviderComponentModal {
   }
 
   buscarRUC() {
+    this.isLoadings = true
     if (this.rucInput.trim() !== '') {
       this.providerService.getProviderRUC(this.rucInput).subscribe(
         (response: any) => {
@@ -125,6 +129,7 @@ export class ProviderComponentModal {
               address: response.direccion,
               reason: response.razonSocial,
             });
+            this.isLoadings = false
           } else {
             this.notification.showErrorToast(
               'No se encontraron datos para el RUC ingresado.'

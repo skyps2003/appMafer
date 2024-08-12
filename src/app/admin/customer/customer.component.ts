@@ -11,12 +11,13 @@ import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
 import { CustomerService } from '../../services/api/customer.service';
 import Swal from 'sweetalert2';
 import { CustomerComponentModal } from '../../components/modals/customer/customer.component';
-import { Customer } from '../../core/interfaces/customer';
+import { Customer, CustomerResponse } from '../../core/interfaces/customer';
+import { LoaderComponent } from '../../components/loader/loader.component';
 
 @Component({
   selector: 'app-customer',
   standalone: true,
-  imports: [FontAwesomeModule, CustomerComponentModal],
+  imports: [FontAwesomeModule, CustomerComponentModal,LoaderComponent],
   templateUrl: './customer.component.html',
 })
 export class CustomerComponent {
@@ -26,6 +27,7 @@ export class CustomerComponent {
   isModalOpen: boolean = false;
   isEditing: boolean = false;
   isLoading: boolean = false;
+  isLoadings: boolean = false;
 
   faArrowDown = faArrowDown;
   faPenToSquare = faPenToSquare;
@@ -40,10 +42,12 @@ export class CustomerComponent {
   }
 
   loadCustomers() {
+    this.isLoadings = true
     this.customerService.getCustomers().subscribe(
-      (data) => {
-        this.customers = data;
-        this.filteredCustomers = data;
+      (response:CustomerResponse) => {
+        this.customers = response.data;
+        this.filteredCustomers = response.data;
+        this.isLoadings = false
       },
       (error) => {
         console.error(error);
@@ -155,7 +159,7 @@ export class CustomerComponent {
             console.error('Error deleting user type', error);
             this.isLoading = false;
             this.notificationService.showErrorToast(
-              'Hubo un error al intentar eliminar al usuario.'
+              error.error.message
             );
           }
         );

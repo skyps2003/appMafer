@@ -12,11 +12,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NotificationService } from '../../services/helpers/notification-service.service';
 import { UserRolComponentModal } from '../../components/modals/user-rol/user-rol.component';
 import { UserRole } from '../../core/interfaces/user-role';
+import { LoaderComponent } from '../../components/loader/loader.component';
 
 @Component({
   selector: 'app-rol',
   standalone: true,
-  imports: [FontAwesomeModule, UserRolComponentModal],
+  imports: [FontAwesomeModule, UserRolComponentModal, LoaderComponent],
   templateUrl: './rol.component.html',
 })
 export class RolComponent {
@@ -26,6 +27,7 @@ export class RolComponent {
   isModalOpen: boolean = false;
   isEditing: boolean = false;
   isLoading: boolean = false;
+  isLoadings: boolean = false
 
   faArrowDown = faArrowDown;
   faPenToSquare = faPenToSquare;
@@ -41,9 +43,11 @@ export class RolComponent {
   }
 
   loadUserRoles() {
+    this.isLoadings = true
     this.userRoleService.getUserRoles().subscribe(
       (data) => {
         this.userRoles = data;
+        this.isLoadings = false
       },
       (error) => {
         console.error(error);

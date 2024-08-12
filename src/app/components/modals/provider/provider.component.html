@@ -1,5 +1,8 @@
-<div
-  class="fixed inset-0 z-50 bg-gray-600 bg-opacity-50 flex items-center justify-center"
+@if (isLoadings) {
+  <app-loader></app-loader>
+}
+  <div
+  class="fixed inset-0 z-40 bg-gray-600 bg-opacity-50 flex items-center justify-center"
 >
   <div
     class="relative mx-auto p-5 border w-[600px] shadow-lg rounded-md bg-white"
@@ -129,7 +132,7 @@
           (click)="saveProvider()"
           ></app-button-form>
           <app-button-form
-          [text]="'Guardar'"
+          [text]="'Cancelar'"
           [icon]="faTimes"
           [styleClass]="'bg-red-600 text-white rounded-lg py-2 px-3'"
           (click)="closeModal()"
@@ -139,3 +142,4 @@
     </div>
   </div>
 </div>
+

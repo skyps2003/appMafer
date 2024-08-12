@@ -12,15 +12,21 @@ import Swal from 'sweetalert2';
 import { DetailedProduct, DetailedProductResponse } from '../../core/interfaces/detailed-product';
 import { Inventory } from '../../core/interfaces/inventory';
 import { NotificationService } from '../../services/helpers/notification-service.service';
+import { LoaderComponent } from '../../components/loader/loader.component';
 
 interface OrderItem {
   product: DetailedProduct;
   quantity: number;
 }
+interface NewInventory {
+  stock: number;
+  detailed_product_id: number;
+  location: string;
+}
 @Component({
   selector: 'app-inventory-control',
   standalone: true,
-  imports: [FontAwesomeModule, CommonModule, FormsModule],
+  imports: [FontAwesomeModule, CommonModule, FormsModule, LoaderComponent],
   templateUrl: './inventory-control.component.html',
 })
 export class InventoryControlComponent {
@@ -28,6 +34,7 @@ export class InventoryControlComponent {
   orderList: OrderItem[] = [];
   faTrash = faTrash;
   discount: number = 0;
+  isLoading: boolean = false
 
   constructor(private detailedProductService: DetailedProductService) {}
   private inventoryService = inject(InventoryService);
@@ -38,8 +45,10 @@ export class InventoryControlComponent {
   }
 
   loadDetailedProducts() {
+    this.isLoading = true
     this.detailedProductService.getDetailedProducts().subscribe((response: DetailedProductResponse) => {
       this.detailedProducts = response.data;
+      this.isLoading = false
     });
   }
 
@@ -182,6 +191,7 @@ export class InventoryControlComponent {
     doc.save('reporte-inventario.pdf');
 }
 
+
   addToInventory() {
     this.generateReport();
     if (!this.orderList || this.orderList.length === 0) {
@@ -195,11 +205,12 @@ export class InventoryControlComponent {
 
     this.orderList.forEach((item) => {
       if (item.product && item.product.id && item.quantity) {
-        inventories.push({
+        const newInventory: NewInventory = {
           stock: item.quantity,
           detailed_product_id: item.product.id,
           location: 'Inventario',
-        });
+        };
+        inventories.push(newInventory as unknown as Inventory);
       } else {
         console.error('Faltan datos importantes en el pedido:', item);
       }

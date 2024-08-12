@@ -1,6 +1,10 @@
-<section class="mt-2">
+@if(isLoadings){
+  <app-loader></app-loader>
+}
+@else {
+  <section class="mt-2">
     <div class="flex items-center justify-between">
-      <h2 class="text-xl font-semibold capitalize">Usuario</h2>
+      <h2 class="text-xl font-semibold capitalize">Cliente</h2>
       <button
         (click)="openModal()"
         class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md transition-colors"
@@ -12,7 +16,7 @@
       <div class="flex items-center justify-between">
         <div>
           <h2 class="capitalize text-md font-semibold">
-            Tabla de usuarios
+            Tabla de clientes
           </h2>
         </div>
         <div>
@@ -177,3 +181,4 @@
     >
     </app-customer-modal> 
   }
+}

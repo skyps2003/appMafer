@@ -1,3 +1,6 @@
+@if(isLoading){
+<app-loader></app-loader>
+} @else {
 <section class="mt-3">
   <div class="flex items-center justify-between">
     <h2 class="text-xl font-semibold capitalize">Inventario</h2>
@@ -37,7 +40,7 @@
                 >
                   <img
                     class="w-full h-48 object-cover shadow-sm shadow-black"
-                    [src]="inventory.detailed_product?.product?.img"
+                    [src]="inventory.product.img"
                     alt="Image"
                   />
                   <div class="flex flex-col justify-between flex-grow p-6">
@@ -45,22 +48,65 @@
                       <h2
                         class="text-xl font-bold text-green-800 font-serif capitalize"
                       >
-                        {{ inventory.detailed_product?.product?.name }}
+                        {{ inventory.product.name }}
                       </h2>
                       <p
                         class="text-gray-600 mt-2 capitalize tracking-wide text-justify"
                       >
-                        {{ inventory.detailed_product?.product?.description }}
+                        {{ inventory.product.description }}
                       </p>
                     </div>
-                    <div [ngClass]="{
-                      'bg-red-500': inventory.stock < 20,
-                      'bg-yellow-500': inventory.stock >= 20 && inventory.stock < 40,
-                      'bg-green-500': inventory.stock >= 40
-                    }" class="mt-4 py-2 px-3  rounded-lg">
-                      <span class="lining-nums text-center text-white text-lg block"
+                    <div
+                      [ngClass]="{
+                        'bg-red-500': inventory.stock < 20,
+                        'bg-yellow-500':
+                          inventory.stock >= 20 && inventory.stock < 40,
+                        'bg-green-500': inventory.stock >= 40
+                      }"
+                      class="mt-4 py-2 px-3 rounded-lg"
+                    >
+                      <span
+                        class="lining-nums text-center text-white text-lg block"
                         >{{ inventory.stock }} unidades</span
                       >
+                    </div>
+                    <div class="mt-4">
+                      <div class="container mx-auto px-4">
+                        <div class="mb-4">
+                          <label
+                            for="stock-{{ inventory.id }}"
+                            class="block text-sm font-medium text-gray-700"
+                          >
+                            Nuevo Stock
+                          </label>
+                          <input
+                            type="number"
+                            id="stock-{{ inventory.id }}"
+                            [(ngModel)]="stockValues[inventory.id]"
+                            min="1"
+                            required
+                            class="mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
+                            placeholder="Ingrese cantidad de stock"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="flex items-center justify-between">
+                        <button
+                          (click)="updateStock(inventory.id)"
+                          [disabled]="
+                            !stockValues[inventory.id] ||
+                            stockValues[inventory.id] < 1
+                          "
+                          class="px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 disabled:opacity-50"
+                        >
+                          Actualizar Stock
+                        </button>
+                        <button (click)="updateStatus(inventory.id)" class="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 disabled:opacity-50"
+                        >
+                          Quitar
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -75,13 +121,15 @@
 </section>
 
 <!-- @if(isModalOpen)
-  {
-    <app-detailed-product-modal
-    [isLoading]="isLoading"
-    (save)="saveDetailedProduct($event)"
-    [detailedProduct]="selectDetailedProduct ?? {}"
-    (close)="closeModal()"
-    >
+    {
+      <app-detailed-product-modal
+      [isLoading]="isLoading"
+      (save)="saveDetailedProduct($event)"
+      [detailedProduct]="selectDetailedProduct ?? {}"
+      (close)="closeModal()"
+      >
+  
+      </app-detailed-product-modal>
+    } -->
 
-    </app-detailed-product-modal>
-  } -->
+}

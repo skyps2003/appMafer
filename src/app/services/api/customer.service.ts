@@ -1,15 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Customer } from '../../core/interfaces/customer';
+import { Customer, CustomerResponse } from '../../core/interfaces/customer';
 import { BaseService } from '../helpers/base.service';
+import { API_URL } from '../../utils/apiurl';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CustomerService extends BaseService{
 
-  private customerURL = "http://127.0.0.1:8000/api/v1/customer"
+  private customerURL = API_URL+"customer"
 
   private http = inject(HttpClient)
 
@@ -17,8 +18,8 @@ export class CustomerService extends BaseService{
     return localStorage.getItem('authToken');
   }
 
-  getCustomers(): Observable<Customer[]> {
-    return this.http.get<Customer[]>(this.customerURL, {
+  getCustomers(): Observable<CustomerResponse> {
+    return this.http.get<CustomerResponse>(this.customerURL, {
       headers: this.getAuthHeaders(),
     });
   }

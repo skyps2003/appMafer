@@ -1,0 +1,143 @@
+@if(isLoading){
+    <app-loader></app-loader>
+  }@else {
+    <section class="mt-2">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-semibold capitalize">Pedido</h2>
+      </div>
+      <div class="mt-3">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="capitalize text-md font-semibold">
+              Tabla de Pedidos
+            </h2>
+          </div>
+          <div>
+            <label class="capitalize text-md font-semibold" for="">Buscar: </label>
+            <input
+              class="border border-slate-100 py-2 px-3 rounded-lg"
+              type="text"
+              (input)="onSearch()"
+            />
+          </div>
+        </div>
+        <div class="container px-1 mx-auto mt-3 pb-4">
+          <div class="flex flex-col">
+            <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <div
+                class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8"
+              >
+                <div
+                  class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg"
+                >
+                  <table
+                    class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
+                  >
+                    <thead class="bg-gray-100 dark:bg-gray-800">
+                      <tr>
+                        <th
+                          scope="col"
+                          class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                        >
+                          Cliente
+                        </th>
+                        <th
+                          scope="col"
+                          class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                        >
+                          <div class="flex items-center gap-x-3">
+                            <button class="flex items-center gap-x-2">
+                              <span>Nombre</span>
+                            </button>
+                          </div>
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                        >
+                          Imagen
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                        >
+                          Precio unitario
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                        >
+                          Precio total
+                        </th>
+                        
+                        <th
+                          scope="col"
+                          class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                        >
+                          Estado
+                        </th>
+                        
+                        <th
+                          scope="col"
+                          class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                        >
+                          Pago
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                        >
+                          Forma de pago
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900"
+                    >
+                    @for (order of orders; track $index) {
+                        <tr>
+                          <td class="px-6 py-4 whitespace-nowrap capitalize">
+                            {{ order.sale.customer.name }}
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap capitalize">
+                            {{ order.sale.inventory.detailed_product.product.name }}
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <img [src]="order.sale.inventory.detailed_product.product.img" alt="{{ order.sale.inventory.detailed_product.product.name }}" class="w-16 h-16 object-cover rounded">
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            ${{ order.sale.inventory.detailed_product.product.price }}
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            ${{ order.sale.total_sale }}
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <button (click)="orderPay(order.id)">
+                                <span [ngClass]="{'text-green-500': order.status === '1', 'text-red-500': order.status === '0'}">
+                                    {{ order.status === '1' ? 'Completa' : 'Pendiente' }}
+                                  </span>
+                            </button>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <span [ngClass]="{'text-green-500': order.status === '1', 'text-red-500': order.status ===  '2'}">
+                                {{ order.status === '1' ? 'Pago Cancelado' : 'Pago pendiente' }}
+                              </span>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <span [ngClass]="{'text-blue-500': order.sale.payment_method_id === 1, 'text-green-500': order.sale.payment_method_id === 2}">
+                                {{ order.sale.payment_method_id !== 1 ? 'Con tarjeta' : 'En efectivo' }}
+                              </span>
+                          </td>
+                        </tr>
+                       }
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+   
+  }

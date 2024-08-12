@@ -18,6 +18,7 @@ import { authenticatedGuard } from './core/guards/authenticated.guard';
 import { CategoryComponent } from './admin/maintenance/category/category.component';
 import { ProviderComponent } from './admin/maintenance/provider/provider.component';
 import { ProductComponent } from './admin/maintenance/product/product.component';
+import { OrderComponent } from './admin/order/order.component';
 
 export const routes: Routes = [
   {
@@ -27,6 +28,11 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         component: DashboardComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'order',
+        component: OrderComponent,
         canActivate: [AuthGuard],
       },
       {

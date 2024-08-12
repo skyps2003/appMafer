@@ -12,11 +12,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { UserComponentModal } from '../../components/modals/user/user.component';
 import { NotificationService } from '../../services/helpers/notification-service.service';
 import { User, UserResponse } from '../../core/interfaces/user';
+import { LoaderComponent } from '../../components/loader/loader.component';
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [FontAwesomeModule, UserComponentModal],
+  imports: [FontAwesomeModule, UserComponentModal, LoaderComponent],
   templateUrl: './user.component.html',
 })
 export class UserComponent {
@@ -26,6 +27,7 @@ export class UserComponent {
   isModalOpen: boolean = false;
   isEditing: boolean = false;
   isLoading: boolean = false;
+  isLoadings: boolean = false;
 
   faArrowDown = faArrowDown;
   faPenToSquare = faPenToSquare;
@@ -40,10 +42,12 @@ export class UserComponent {
   }
 
   loadUsers() {
+    this.isLoadings = true
     this.userService.getUsers().subscribe(
       (response: UserResponse) => {
         this.users = response.data;
         this.filteredUsers = response.data;
+        this.isLoadings = false
       },
       (error) => {
         console.error(error);
@@ -156,7 +160,8 @@ export class UserComponent {
             console.error('Error deleting user type', error);
             this.isLoading = false;
             this.notificationService.showErrorToast(
-              'Hubo un error al intentar eliminar al usuario.'
+              error.error.message
+              
             );
           }
         );

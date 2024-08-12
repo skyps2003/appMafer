@@ -103,6 +103,31 @@
         </li>
 
         <hr class="my-4 md:min-w-full" />
+        <li class="items-center">
+          <a
+            [routerLink]="['/admin/order']"
+            class="text-xs uppercase p-3 font-bold block rounded-lg"
+            routerLinkActive
+            #order="routerLinkActive"
+            [ngClass]="
+              order.isActive
+                ? 'text-white bg-red-500 hover:bg-red-600'
+                : 'text-slate-600 hover:text-slate-500'
+            "
+          >
+            <fa-icon
+              [icon]="fatv"
+              class="fas fa-tv mr-2 text-sm"
+              [ngClass]="
+                order.isActive ? 'opacity-75' : 'text-blueGray-300'
+              "
+            ></fa-icon>
+
+            Pedidos
+          </a>
+        </li>
+
+        <hr class="my-4 md:min-w-full" />
       <!-- Roles -->
       <h6
         class="md:min-w-full text-slate-500 text-md font-mono capitalize font-semibold block pl-3 pt-1 pb-4 no-underline cursor-pointer"

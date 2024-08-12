@@ -1,52 +1,58 @@
-<div class="mt-8">
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 py-4">
-    <app-card
-      [title]="'Producto'"
-      [icon]="faBox"
-      [color]="'green'"
-      [description]="'Hola'"
-      [amount]="aProduct"
-    >
+@if (isLoading) {
+<app-loader></app-loader>
+}
+@else {
+  <div class="mt-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 py-4">
+      <app-card
+        [title]="'Producto'"
+        [icon]="faBox"
+        [color]="'green'"
+        [description]="'Hola'"
+        [amount]="aProduct"
+      >
+      </app-card>
+      <app-card
+        [title]="'Categoría'"
+        [icon]="faBox"
+        [color]="'green'"
+        [description]="'Hola'"
+        [amount]="aCategory"
+      >
+      </app-card>
+      <app-card
+        [title]="'Proveedores'"
+        [icon]="faBox"
+        [color]="'green'"
+        [description]="'Hola'"
+        [amount]="aProvider"
+      >
+      </app-card>
+      <app-card
+        [title]="'Inventario'"
+        [icon]="faBox"
+        [color]="'green'"
+        [description]="'Hola'"
+        [amount]="aInventory"
+      >
+      </app-card>
+      <app-card
+        [title]="'Detalle producto'"
+        [icon]="faBox"
+        [color]="'green'"
+        [description]="'Hola'"
+        [amount]="aDetailedProduct"
+      >
+      </app-card>
+      <app-card
+        [title]="'Clientes'"
+        [icon]="faBox"
+        [color]="'green'"
+        [description]="'Hola'"
+        [amount]="aCustomer"
+      >
     </app-card>
-    <app-card
-      [title]="'Categoría'"
-      [icon]="faBox"
-      [color]="'green'"
-      [description]="'Hola'"
-      [amount]="aCategory"
-    >
-    </app-card>
-    <app-card
-      [title]="'Proveedores'"
-      [icon]="faBox"
-      [color]="'green'"
-      [description]="'Hola'"
-      [amount]="aProvider"
-    >
-    </app-card>
-    <app-card
-      [title]="'Inventario'"
-      [icon]="faBox"
-      [color]="'green'"
-      [description]="'Hola'"
-      [amount]="aInventory"
-    >
-    </app-card>
-    <app-card
-      [title]="'Detalle producto'"
-      [icon]="faBox"
-      [color]="'green'"
-      [description]="'Hola'"
-      [amount]="aDetailedProduct"
-    >
-    </app-card>
-    <app-card
-      [title]="'Clientes'"
-      [icon]="faBox"
-      [color]="'green'"
-      [description]="'Hola'"
-      [amount]="aCustomer"
-    >
-  </app-card>
+    </div>
   </div>
-</div>
+}
+

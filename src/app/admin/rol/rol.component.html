@@ -1,4 +1,7 @@
-<section class="mt-2">
+@if(isLoadings){
+  <app-loader></app-loader>
+}@else {
+  <section class="mt-2">
     <div class="flex items-center justify-between">
       <h2 class="text-xl font-semibold capitalize">Usuario</h2>
       <button
@@ -170,3 +173,4 @@
 
     </app-user-rol-modal> 
   }
+}

@@ -3,13 +3,14 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserRole } from '../../core/interfaces/user-role';
 import { BaseService } from '../helpers/base.service';
+import { API_URL } from '../../utils/apiurl';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserRoleService extends BaseService{
 
-  private userRoleURL = "http://127.0.0.1:8000/api/userRole"
+  private userRoleURL = API_URL+"userRole"
   private http = inject(HttpClient)
 
   protected getToken(): string | null {

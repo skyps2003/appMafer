@@ -16,11 +16,12 @@ import { ProvidersService } from '../../../services/api/providers.service';
 import { DataTableComponent } from '../../../components/tables/data-table/data-table.component';
 import { search } from '../../../utils/search';
 import { NotificationService } from '../../../services/helpers/notification-service.service';
+import { LoaderComponent } from '../../../components/loader/loader.component';
 
 @Component({
   selector: 'app-provider',
   standalone: true,
-  imports: [FontAwesomeModule, ProviderComponentModal, CommonModule, FormsModule, DataTableComponent],
+  imports: [FontAwesomeModule, ProviderComponentModal, CommonModule, FormsModule, DataTableComponent, LoaderComponent],
   templateUrl: './provider.component.html',
 })
 export class ProviderComponent {
@@ -31,6 +32,7 @@ export class ProviderComponent {
   isModalOpen: boolean = false;
   isEditing: boolean = false;
   isLoading: boolean = false;
+  isLoadings: boolean = false;
   filteredProviders: Provider[] = []
 
   faArrowDown = faArrowDown;
@@ -66,10 +68,12 @@ export class ProviderComponent {
   }
 
   loadProviders() {
+    this.isLoadings = true
     this.providerService.getProviders().subscribe(
       (response: ProviderResponse) => {
         this.providers = response.data
         this.filteredProviders = response.data
+        this.isLoadings = false
       },
       (error) => {
         console.error(error);
@@ -155,10 +159,9 @@ export class ProviderComponent {
             this.notification.showSuccessToast(data.message);
           },
           (error) => {
-            console.error('Error deleting provider', error);
             this.isLoading = false;
             this.notification.showErrorToast(
-              'Hubo un error al intentar eliminar el proveedor.'
+              error.error.message
             );
           }
         );

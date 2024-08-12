@@ -4,7 +4,6 @@ export interface Customer {
     surname: string,
     dni: string,
     ruc: string,
-    customer_type_id: number,
     reason: string,
     address: string,
     email: string,
@@ -13,4 +12,9 @@ export interface Customer {
       id: number,
       name: string,
     }
+}
+
+export interface CustomerResponse{
+  message: string
+  data: Customer[]
 }
