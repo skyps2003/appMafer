@@ -1,0 +1,39 @@
+<a
+  class="text-blueGray-500 block"
+  href="#"
+  (click)="toggleDropdown($event)"
+  #btnDropdownRef
+>
+  <div class="items-center flex">
+    <span
+      class="w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center rounded-full"
+    >
+      <img
+        alt="..."
+        class="w-full rounded-full align-middle border-none shadow-lg"
+        [src]="user.img"
+      />
+    </span>
+  </div>
+</a>
+<div class="min-w-48 z-50" #popoverDropdownRef>
+  <div
+    class="bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg mt-1 min-w-48"
+    [ngClass]="dropdownPopoverShow ? 'block' : 'hidden'"
+  >
+    
+    <a
+      routerLink="/admin/profile"
+      href="#"
+      class="text-mg text-black font-mono font-semibold py-2 px-4"
+    >
+      Perfil
+    </a>
+    <button type="button"
+      (click)="logout()"
+      class="text-sm py-2 px-4 font-normal text-start block w-full text-red-500"
+    >
+      Cerrar sesión
+    </button>
+  </div>
+</div>

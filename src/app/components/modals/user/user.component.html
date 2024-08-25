@@ -1,0 +1,173 @@
+<div
+  class="fixed inset-0 z-50 bg-gray-600 bg-opacity-50 flex items-center justify-center overflow-auto py-10"
+>
+  <div
+    class="relative mx-auto p-5 border w-[600px] max-h-[90vh] overflow-y-auto shadow-lg rounded-md bg-white"
+  >
+    <div class="mt-3 text-center py-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          {{ userForm.get('id') ? "Editar usuario" : "Nuevo usuario" }}
+        </h3>
+        <button
+          (click)="closeModal()"
+          class="bg-red-500 hover:bg-red-700 w-8 h-8 text-white rounded-full"
+        >
+          <fa-icon [icon]="faTimes"></fa-icon>
+        </button>
+      </div>
+      <hr class="h-[1px] bg-slate-200 my-4" />
+      <form class="w-full" [formGroup]="userForm">
+        <div class="mt-2">
+          <div class="flex w-full items-center justify-between gap-4">
+            <div class="mb-4 w-1/2">
+              <label class="block font-mono text-left text-sm font-medium text-gray-700"
+                >Nombre:
+              </label>
+              <input
+                type="text"
+                formControlName="name"
+                name="name"
+                placeholder="-- Campo obligatorio --"
+                class="mt-1 block w-full border placeholder:text-center border-gray-300 rounded-md shadow-sm p-2"
+              />
+              <app-validation-error [control]="nameFb"></app-validation-error>
+            </div>
+            <div class="mb-4 w-1/2">
+              <label class="block font-mono text-sm font-medium text-gray-700 text-left"
+                >Apellido:</label
+              >
+              <input
+                type="text"
+                formControlName="surName"
+                name="surName"
+                placeholder="-- Campo obligatorio --"
+                class="mt-1 block w-full border placeholder:text-center border-gray-300 rounded-md shadow-sm p-2"
+              />
+              <app-validation-error [control]="surNameFb"></app-validation-error>
+            </div>
+          </div>
+          @if(!user.id){
+            <div class="flex w-full items-center justify-between gap-4">
+              <div class="mb-4 w-1/2">
+                <label class="block font-mono text-left text-sm font-medium text-gray-700"
+                  >Contraseña:
+                </label>
+                <input
+                  type="text"
+                  formControlName="password"
+                  name="password"
+                  placeholder="-- Campo obligatorio --"
+                  class="mt-1 block w-full border placeholder:text-center border-gray-300 rounded-md shadow-sm p-2"
+                />
+                <app-validation-error [control]="passwordFb"></app-validation-error>
+              </div>
+              <div class="mb-4 w-1/2">
+                <label class="block font-mono text-sm font-medium text-gray-700 text-left"
+                  >Confirmar:</label
+                >
+                <input
+                  type="text"
+                  formControlName="password_confirmation"
+                  name="password_confirmation"
+                  placeholder="-- Campo obligatorio --"
+                  class="mt-1 block w-full border placeholder:text-center border-gray-300 rounded-md shadow-sm p-2"
+                />
+                <app-validation-error [control]="password_confirmationFb"></app-validation-error>
+              </div>
+            </div>
+          }
+         
+          <div class="flex w-full items-center justify-between gap-4">
+            
+            <div class="mb-4 w-1/2">
+              <label class="block font-mono text-sm font-medium text-gray-700 text-left"
+                >Email:</label
+              >
+              <input
+                type="email"
+                formControlName="email"
+                name="email"
+                placeholder="-- Campo obligatorio --"
+                class="mt-1 block w-full border placeholder:text-center border-gray-300 rounded-md shadow-sm p-2"
+              />
+              <app-validation-error [control]="emailFb"></app-validation-error>
+            </div>
+            <div class="mb-4 w-1/2">
+                <label class="block font-mono text-sm font-medium text-gray-700 text-left"
+                  >Direccion:</label
+                >
+                <input
+                  type="addres"
+                  formControlName="addres"
+                  name="addres"
+                  placeholder="-- Campo obligatorio --"
+                  class="mt-1 block w-full border placeholder:text-center border-gray-300 rounded-md shadow-sm p-2"
+                />
+                <app-validation-error [control]="addresFb"></app-validation-error>
+              </div>
+          </div>
+          <div class="flex w-full items-center justify-between gap-4">
+            <div class="mb-4 w-full">
+              <label
+                for="productType"
+                class="block font-mono mb-2 text-sm font-medium text-gray-900 dark:text-gray-400 text-left"
+                >Selecione el genero</label
+              >
+              <select
+                id="productType"
+                formControlName="gender"
+                name="gender"
+                class="bg-gray-50 font-mono border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              >
+                <option class="py-2 px-3" value="0" selected disabled>Seleccione un Genero</option>
+                <option class="py-2 px-3" value="1">Masculino</option>
+                <option class="py-2 px-3" value="2">Femenino</option>
+                
+              </select>
+              <app-validation-error [control]="genderFb"></app-validation-error>
+            </div>
+           
+           
+          </div>
+          <div class="flex flex-col w-full items-center gap-4">
+            <div class="mb-4 w-full">
+              <label class="block text-left text-sm font-medium text-gray-700"
+                >Imagen:
+              </label>
+              <input
+                type="file"
+                (change)="captureImg($event)"
+                name="img"
+                placeholder="-- Campo obligatorio --"
+                class="mt-1 block w-full border placeholder:text-center border-gray-300 rounded-md shadow-sm p-2"
+              />
+            </div>
+            @if (preview) 
+            {
+              <div class="mb-4 w-full flex justify-center items-center">
+                <img src="" alt="" width="200" height="150" [src]="preview">
+              </div>
+            }
+            
+          </div>
+          
+        </div>
+        <div class="mt-4 flex items-center justify-end gap-4">
+          <app-button-form
+            [text]="'Guardar'"
+            [icon]="faSave"
+            [styleClass]="'bg-green-600 text-white rounded-lg py-2 px-3'"
+            (click)="saveUser()"
+          ></app-button-form>
+          <app-button-form
+            [text]="'Cerrar'"
+            [icon]="faTimes"
+            [styleClass]="'bg-red-600 text-white rounded-lg py-2 px-3'"
+            (click)="closeModal()"
+          ></app-button-form>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

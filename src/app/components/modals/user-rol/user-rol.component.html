@@ -1,0 +1,68 @@
+<div
+  class="fixed inset-0 z-50 bg-gray-600 bg-opacity-50 flex items-center justify-center overflow-auto "
+>
+  <div
+    class="relative mx-auto border w-[600px] max-h-[90vh] overflow-y-auto shadow-lg rounded-md bg-white"
+  >
+    <div class="mt-3 text-center p-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          {{ userRolForm.get('id') ? "Editar Tipo de Producto" : "Nuevo Tipo de Producto" }}
+        </h3>
+        <button
+          (click)="closeModal()"
+          class="bg-red-500 hover:bg-red-700 w-8 h-8 text-white  rounded-full"
+        >
+          <fa-icon [icon]="faTimes"></fa-icon>
+        </button>
+      </div>
+      <hr class="h-[1px] bg-slate-200 my-4" />
+      <form class="w-full" [formGroup]="userRolForm">
+        <div class="mt-2">
+          <div class="flex w-full items-center justify-between gap-4">
+            <div class="mb-4 w-1/2">
+              <label class="block font-mono text-left text-sm font-medium text-gray-700"
+              >Usuario:
+            </label>
+            <select formControlName="user_id" id="" class="mt-1 block w-full border placeholder:text-center border-gray-300 rounded-md shadow-sm p-2">
+                <option value="" disabled selected>Seleccione un Usuario</option>
+                @for (user of users; track $index) {
+                  <option value="{{ user.id }}">{{ user.name }}</option>
+                }
+            </select>
+              <app-validation-error [control]="userRolForm.get('user_id')"></app-validation-error>
+            </div>
+            <div class="mb-4 w-1/2">
+              <label class="block font-mono text-left text-sm font-medium text-gray-700"
+              >Rol:
+            </label>
+              <select formControlName="rol_id" id="" class="mt-1 block w-full border placeholder:text-center border-gray-300 rounded-md shadow-sm p-2">
+                <option value="" disabled selected>Seleccione un rol</option>
+                @for (rol of rols; track $index) {
+                  <option value="{{ rol.id }}">{{ rol.name }}</option>
+                }
+            </select>
+              <app-validation-error [control]="userRolForm.get('rol_id')"></app-validation-error>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 flex items-center justify-end gap-4">
+          <button
+            class="bg-green-600 text-white rounded-lg py-2 px-3"
+            type="button"
+            (click)="saveUserRole()"
+          >
+            Guardar
+          </button>
+          <button
+            class="bg-red-600 text-white rounded-lg py-2 px-3"
+            type="button"
+            (click)="closeModal()"
+          >
+            Cerrar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

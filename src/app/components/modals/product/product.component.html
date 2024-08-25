@@ -1,0 +1,110 @@
+<div
+  class="fixed inset-0 z-50 bg-gray-600 bg-opacity-50 flex items-center justify-center overflow-auto py-10"
+>
+  <div
+    class="relative mx-auto p-5 border w-[600px] shadow-lg rounded-md bg-white"
+  >
+    <div class="mt-3 text-center">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          {{ product.id ? "Editar Producto" : "Nuevo Producto" }}
+        </h3>
+        <button
+          (click)="closeModal()"
+          class="bg-red-500 hover:bg-red-700 w-7 border text-white rounded-full"
+        >
+          <fa-icon [icon]="faTimes"></fa-icon>
+        </button>
+      </div>
+      <hr class="h-[1px] bg-gray-200 my-4" />
+      <form class="w-full" [formGroup]="productForm">
+        <div class="mt-2">
+          <div class="flex w-full items-center justify-between gap-4">
+            <div class="mb-4 w-1/2">
+              <label
+                class="block font-mono text-left text-sm font-medium text-gray-700"
+                >Nombre:</label
+              >
+              <input
+                type="text"
+                name="name"
+                formControlName="name"
+                class="mt-1 placeholder:text-center block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                placeholder="-- Campo obligatorio --"
+              />
+              <app-validation-error [control]="nameFb"></app-validation-error>
+            </div>
+            <div class="mb-4 w-1/2">
+              <label
+                class="block font-mono text-sm font-medium text-gray-700 text-left"
+                >Descripción:</label
+              >
+              <input
+                type="text"
+                name="description"
+                formControlName="description"
+                class="mt-1 placeholder:text-center block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                placeholder="-- Campo opcional --"
+              />
+              <app-validation-error
+                [control]="descriptionFb"
+              ></app-validation-error>
+            </div>
+          </div>
+          <div class="flex w-full items-center justify-between gap-4">
+            <div class="mb-4 w-1/2">
+              <label
+                class="block font-mono text-sm font-medium text-gray-700 text-left"
+                >Precio:</label
+              >
+              <input
+                type="number"
+                name="price"
+                formControlName="price"
+                class="mt-1 placeholder:text-center block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                placeholder="-- Campo obligatorio --"
+              />
+              <app-validation-error [control]="priceFb"></app-validation-error>
+            </div>
+          </div>
+          <div class="flex flex-col w-full items-center gap-4">
+            <div class="mb-4 w-full">
+              <label
+                class="block font-mono text-left text-sm font-medium text-gray-700"
+                >Imagen:</label
+              >
+              <input
+                type="file"
+                (change)="captureImg($event)"
+                class="mt-1 block w-full border border-gray-300 font-mono rounded-md shadow-sm p-2"
+              />
+              <app-validation-error
+                [control]="productForm.get('img')"
+              ></app-validation-error>
+            </div>
+            <div
+              *ngIf="preview"
+              class="mb-4 w-full flex justify-center items-center"
+            >
+              <img [src]="preview" alt="Preview" width="200" />
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 flex items-center justify-end gap-4">
+          <app-button-form
+            [text]="'Guardar'"
+            [icon]="faSave"
+            [styleClass]="'bg-green-600 text-white rounded-lg py-2 px-3'"
+            (click)="saveProduct()"
+          ></app-button-form>
+          <app-button-form
+            [text]="'Cancelar'"
+            [icon]="faTimes"
+            [styleClass]="'bg-red-600 text-white rounded-lg py-2 px-3'"
+            (click)="closeModal()"
+          ></app-button-form>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

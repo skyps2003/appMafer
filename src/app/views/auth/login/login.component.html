@@ -1,0 +1,94 @@
+<div class="relative h-screen">
+  <div
+    class="container mx-auto px-4 h-full relative z-10 flex items-center justify-center"
+  >
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 h-full w-full">
+      <div class="hidden md:block"></div>
+
+      <div class="flex items-center justify-center h-full ">
+        <div class="w-full px-4 md:px-8 lg:px-12 max-w-lg">
+          <div
+            class="relative flex flex-col min-w-0 break-words w-full p-4 mb-6 rounded-xl bg-transparent backdrop-brightness-110 border-black shadow-black shadow-2xl"
+          >
+            <div class="rounded-t-xl mb-0">
+              <div class="text-center mb-3 py-4 bg-white rounded-lg uppercase">
+                <img src="./logo.png" alt="" class="h-24 w-full">
+              </div>
+            </div>
+            <div class="flex-auto  lg:px-6 py-6 pt-0 bg-white rounded-lg">
+              <div class="text-white text-center my-3">
+                <small class="font-mono text-lg font-bold text-red-700"
+                  >Ingrese sus credenciales</small
+                >
+              </div>
+              <form (ngSubmit)="login()">
+                <div class="relative w-full mb-3">
+                  <label
+                    class="block capitalize text-green-500 font-mono text-md font-bold mb-2 "
+                    htmlFor="email"
+                  >
+                    Correo
+                  </label>
+                  <input
+                    type="email"
+                    class="border-black border px-3 py-3 placeholder-slate-500 text-black font-mono bg-white rounded text-sm shadow-xl   w-full ease-linear transition-all duration-150  focus:outline-none"
+                    [(ngModel)]="email"
+                    name="email"
+                    placeholder="-- correo --"
+                  />
+                </div>
+
+                <div class="relative w-full mb-3">
+                  <label
+                    class=" capitalize text-green-500 font-mono text-md font-bold mb-2"
+                    htmlFor="password"
+                  >
+                    Contraseña
+                  </label>
+                  <input
+                    type="password"
+                    class="border-black border px-3 py-3 placeholder-slate-500 text-black font-mono bg-white rounded text-sm shadow-xl   w-full ease-linear transition-all duration-150  focus:outline-none"
+                    [(ngModel)]="password"
+                    name="password"
+                    placeholder="-- contraseña --"
+                  />
+                </div>
+                <div class="flex items-start justify-between gap-3">
+                  <label class="inline-flex items-center cursor-pointer">
+                    <input
+                      id="customCheckLogin"
+                      [(ngModel)]="rememberMe"
+                      name="rememberMe"
+                      type="checkbox"
+                      class="form-checkbox border-0 text-slate-200 ml-1 w-5 h-5 ease-linear transition-all duration-150 rounded"
+                    />
+                    <span class="ml-2 text-sm font-semibold text-black">
+                      Recordar
+                    </span>
+                  </label>
+                  <label class="inline-flex items-center cursor-pointer">
+                    <button class="ml-2 text-sm font-semibold text-black">
+                      Olvido su contraseña?
+                    </button>
+                  </label>
+                </div>
+
+                <div class="text-center mt-6">
+                  <button
+                    class="bg-red-600 text-white active:bg-slate-200 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                    type="submit"
+                  >
+                    Iniciar Sesion
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="flex flex-wrap mt-6 relative">
+            <!-- Sección opcional para enlaces adicionales -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
