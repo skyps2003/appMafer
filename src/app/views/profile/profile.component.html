@@ -42,44 +42,44 @@
               <div class="relative">
                 <img
                   alt="..."
-                  [src]="user.img"
-                  class="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px"
+                  (click)="openImageModal()"
+                  [src]="userU!.img"
+                  class="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-100-px"
                 />
               </div>
             </div>
           </div>
           <div class="flex mt-12 gap-3 items-center justify-between py-2">
-            <div class=" flex flex-col">
-              <h3 class="text-xl font-mono ">Nombre:</h3>
+            <div class="flex flex-col">
+              <h3 class="text-xl font-mono">Nombre:</h3>
               <div>
-                {{ user.name + " " + user.surName }}
+                {{ userU.name + " " + userU.surName }}
               </div>
             </div>
-            <div class=" flex flex-col">
-              <span class="text-xl font-mono ">Direccion: </span>
+            <div class="flex flex-col">
+              <span class="text-xl font-mono">Direccion: </span>
               <div>
-                {{ user.addres }}
+                {{ userU.addres }}
               </div>
             </div>
-            <div class=" flex flex-col">
-              <span class="text-xl font-mono ">Correo: </span>
+            <div class="flex flex-col">
+              <span class="text-xl font-mono">Correo: </span>
               <div>
-                {{ user.email }}
+                {{ userU.email }}
               </div>
             </div>
-            <div class=" flex flex-col">
-              <span class="text-xl font-mono ">Genero: </span>
-              <div>
-                @if(user.gender == 1){
-                  Masculino
-                }@else {
-                  Femenino
-                }
-              </div>
+            <div class="flex flex-col">
+              <span class="text-xl font-mono">Genero: </span>
+              <div>@if(userU.gender == 1){ Masculino }@else { Femenino }</div>
             </div>
           </div>
           <div class="flex items-center justify-center py-4">
-            <button (click)="isOpenModal = true" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-3 rounded-lg">Editar</button>
+            <button
+              (click)="isOpenModal = true"
+              class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-3 rounded-lg"
+            >
+              Editar
+            </button>
           </div>
         </div>
       </div>
@@ -88,53 +88,93 @@
 </main>
 
 @if(isOpenModal){
-  <div
-  class="fixed inset-0 z-50 bg-gray-600 bg-opacity-50 flex items-center justify-center "
+<div
+  class="fixed inset-0 z-50 bg-gray-600 bg-opacity-50 flex items-center justify-center overflow-auto py-10"
 >
-  <div class="relative mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-    <div class="mt-3 text-center">
-      <div class="flex items-center justify-between py-2">
-        <h3 class="text-lg leading-6 font-mono font-semibold text-gray-900">
-          {{
-            user.id ? "Editar Tipo de Producto" : "Nuevo Tipo de Producto"
-          }}
+  <div
+    class="relative mx-auto p-5 border w-[600px] max-h-[90vh] overflow-y-auto shadow-lg rounded-md bg-white"
+  >
+    <div class="mt-3 text-center py-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          Editar usuario
         </h3>
         <button
           (click)="closeModal()"
-          class=" hover:bg-red-700 w-6 h-6 bg-red-500 text-white rounded-full"
+          class="bg-red-500 hover:bg-red-700 w-8 h-8 text-white rounded-full"
         >
-          <fa-icon [icon]="faTimes" ></fa-icon>
+          <fa-icon [icon]="faTimes"></fa-icon>
         </button>
       </div>
-      <hr class="border w-full">
-      <form [formGroup]="userForm">
+      <hr class="h-[1px] bg-slate-200 my-4" />
+      <form class="w-full" [formGroup]="userForm">
         <div class="mt-2">
-          <div class="mb-4">
-            <label class="block text-sm font-mono font-semibold text-gray-700 text-left"
-              >Nombre:
-            </label>
-            <input
-              type="text"
-              formControlName="name"
-              class="mt-1 block w-full border rounded-md shadow-sm p-2 focus:outline-none placeholder:text-md"
-              placeholder="-- Campo obligatorio --"
-            />
-            <app-validation-error [control]="nameFb"></app-validation-error>
+          <div class="flex w-full items-center justify-between gap-4">
+            <div class="mb-4 w-1/2">
+              <label
+                class="block font-mono text-left text-sm font-medium text-gray-700"
+                >Nombre:
+              </label>
+              <input
+                type="text"
+                formControlName="name"
+                name="name"
+                placeholder="-- Campo obligatorio --"
+                class="mt-1 block w-full border placeholder:text-center border-gray-300 rounded-md shadow-sm p-2"
+              />
+              <app-validation-error [control]="nameFb"></app-validation-error>
+            </div>
+            <div class="mb-4 w-1/2">
+              <label
+                class="block font-mono text-sm font-medium text-gray-700 text-left"
+                >Apellido:</label
+              >
+              <input
+                type="text"
+                formControlName="surName"
+                name="surName"
+                placeholder="-- Campo obligatorio --"
+                class="mt-1 block w-full border placeholder:text-center border-gray-300 rounded-md shadow-sm p-2"
+              />
+              <app-validation-error
+                [control]="surNameFb"
+              ></app-validation-error>
+            </div>
           </div>
-          <div class="mb-4">
-            <label class="block text-sm font-mono font-semibold text-gray-700 text-left"
-              >Nombre:
-            </label>
-            <input
-              type="text"
-              formControlName="surName"
-              class="mt-1 block w-full border rounded-md shadow-sm p-2 focus:outline-none placeholder:text-md"
-              placeholder="-- Campo obligatorio --"
-            />
-            <app-validation-error [control]="surNameFb"></app-validation-error>
+
+          <div class="flex w-full items-center justify-between gap-4">
+            <div class="mb-4 w-1/2">
+              <label
+                class="block font-mono text-sm font-medium text-gray-700 text-left"
+                >Email:</label
+              >
+              <input
+                type="email"
+                formControlName="email"
+                name="email"
+                placeholder="-- Campo obligatorio --"
+                class="mt-1 block w-full border placeholder:text-center border-gray-300 rounded-md shadow-sm p-2"
+              />
+              <app-validation-error [control]="emailFb"></app-validation-error>
+            </div>
+            <div class="mb-4 w-1/2">
+              <label
+                class="block font-mono text-sm font-medium text-gray-700 text-left"
+                >Direccion:</label
+              >
+              <input
+                type="addres"
+                formControlName="addres"
+                name="addres"
+                placeholder="-- Campo obligatorio --"
+                class="mt-1 block w-full border placeholder:text-center border-gray-300 rounded-md shadow-sm p-2"
+              />
+              <app-validation-error [control]="addresFb"></app-validation-error>
+            </div>
           </div>
         </div>
-        <div class="mt-4 flex items-center justify-end gap-4 font-mono font-semibold">
+
+        <div class="mt-4 flex items-center justify-end gap-4">
           <app-button-form
             [text]="'Guardar'"
             [icon]="faSave"
@@ -152,6 +192,52 @@
     </div>
   </div>
 </div>
+
+} @if(isOpenImageModal){
+<div
+  class="fixed inset-0 z-50 bg-gray-600 bg-opacity-50 flex items-center justify-center overflow-auto py-10"
+>
+  <div
+    class="relative top-20 mx-auto p-5 border w-[450px] shadow-lg rounded-md bg-white"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="mt-3 text-center">
+      <h3 class="text-lg leading-6 font-medium text-gray-900">
+       Actualizar imagen de perfil
+      </h3>
+      <div class="mt-2 px-7 py-3">
+        <input type="file" (change)="captureImg($event)" />
+      </div>
+
+      <!-- Vista previa de la imagen -->
+      <div *ngIf="preview" class="mt-3 ">
+        <img
+          [src]="preview"
+          alt="Vista previa de la imagen"
+          class="rounded-md w-20 h-20 mx-auto"
+        />
+      </div>
+
+      <!-- Mensaje de error si la imagen no es válida -->
+      <div *ngIf="!isValidImage" class="mt-2 text-red-600">
+        Por favor ingrese un archivo de tipo imagen.
+      </div>
+
+      <div class=" flex justify-between items-center px-4 py-3 gap-3">
+        <button
+          (click)="uploadImage()"
+          class="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-blue-600"
+        >
+          Actualizar
+        </button>
+        <button
+          (click)="closeModal()"
+          class="px-4 py-2 bg-red-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-red-600"
+        >
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 }
-
-
