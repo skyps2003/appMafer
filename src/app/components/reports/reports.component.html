@@ -1,0 +1,32 @@
+<div class="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
+    <h2 class="text-xl font-semibold mb-4">Generar Reporte de Ventas</h2>
+    <form [formGroup]="reportForm" (ngSubmit)="generateReport()">
+      <div class="mb-4">
+        <label for="startDate" class="block text-gray-700">Fecha de Inicio</label>
+        <input
+          id="startDate"
+          type="date"
+          formControlName="start_date"
+          class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+        />
+      </div>
+      
+      <div class="mb-4">
+        <label for="endDate" class="block text-gray-700">Fecha de Fin</label>
+        <input
+          id="endDate"
+          type="date"
+          formControlName="end_date"
+          class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+        />
+      </div>
+  
+      <button
+        type="submit"
+        class="w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300"
+      >
+        Generar Reporte
+      </button>
+    </form>
+  </div>
+  

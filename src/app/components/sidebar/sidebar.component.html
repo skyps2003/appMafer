@@ -18,13 +18,17 @@
       class="flex items-center text-blueGray-600 text-sm uppercase font-bold py-2 px-1"
     >
       <img
-        [src]="company?.img"
+        src="/assets/img/logo.png"
         alt="Company Logo"
         class="w-32 h-20 rounded-full mr-2"
       />
 
-      <span class="block sm:hidden text-lg text-red-500">{{ company?.name }}</span>
-      <span class="hidden sm:block text-lg text-red-500">{{ company?.name }}</span>
+      <span class="block sm:hidden text-lg text-red-500">{{
+        company?.name
+      }}</span>
+      <span class="hidden sm:block text-lg text-red-500">{{
+        company?.name
+      }}</span>
     </a>
     <!-- User -->
     <!-- Collapse -->
@@ -101,6 +105,29 @@
             Dashboard
           </a>
         </li>
+        <li class="items-center">
+          <a
+            [routerLink]="['/admin/reports']"
+            class="text-xs uppercase p-3 font-bold block rounded-lg"
+            routerLinkActive
+            #adminreports="routerLinkActive"
+            [ngClass]="
+              adminreports.isActive
+                ? 'text-white bg-red-500 hover:bg-red-600'
+                : 'text-slate-600 hover:text-slate-500'
+            "
+          >
+            <fa-icon
+              [icon]="fatv"
+              class="fas fa-tv mr-2 text-sm"
+              [ngClass]="
+                adminreports.isActive ? 'opacity-75' : 'text-blueGray-300'
+              "
+            ></fa-icon>
+
+            Reportes
+          </a>
+        </li>
 
         <hr class="my-4 md:min-w-full" />
         <li class="items-center">
@@ -118,9 +145,7 @@
             <fa-icon
               [icon]="fatv"
               class="fas fa-tv mr-2 text-sm"
-              [ngClass]="
-                order.isActive ? 'opacity-75' : 'text-blueGray-300'
-              "
+              [ngClass]="order.isActive ? 'opacity-75' : 'text-blueGray-300'"
             ></fa-icon>
 
             Pedidos
@@ -128,120 +153,124 @@
         </li>
 
         <hr class="my-4 md:min-w-full" />
-      <!-- Roles -->
-      <h6
-        class="md:min-w-full text-slate-500 text-md font-mono capitalize font-semibold block pl-3 pt-1 pb-4 no-underline cursor-pointer"
-        (click)="toggleRolesCollapse()"
-      >
-        Roles
-        <fa-icon
-          [icon]="isRolesCollapsed ? faChevronDown : faChevronUp"
-          class="ml-2"
-        ></fa-icon>
-      </h6>
-      <ul
-        class="md:flex-col md:min-w-full flex flex-col list-none"
-        [ngClass]="{ hidden: isRolesCollapsed }"
-      >
-        <li class="items-center">
-          <a
-            [routerLink]="['/admin/rol']"
-            class="text-xs uppercase p-3 font-bold block rounded-lg"
-            routerLinkActive
-            #roles="routerLinkActive"
-            [ngClass]="
-              roles.isActive
-                ? 'text-white bg-red-500 hover:bg-red-600'
-                : 'text-slate-600 hover:text-slate-500'
-            "
-          >
-            <fa-icon
-              [icon]="faUserShield"
-              class="fas fa-tv mr-2 text-sm"
-              [ngClass]="roles.isActive ? 'opacity-75' : 'text-blueGray-300'"
-            ></fa-icon>
-            Gestionar Roles
-          </a>
-        </li>
-      </ul>
+        <!-- Roles -->
+        <h6
+          class="md:min-w-full text-slate-500 text-md font-mono capitalize font-semibold block pl-3 pt-1 pb-4 no-underline cursor-pointer"
+          (click)="toggleRolesCollapse()"
+        >
+          Roles
+          <fa-icon
+            [icon]="isRolesCollapsed ? faChevronDown : faChevronUp"
+            class="ml-2"
+          ></fa-icon>
+        </h6>
+        <ul
+          class="md:flex-col md:min-w-full flex flex-col list-none"
+          [ngClass]="{ hidden: isRolesCollapsed }"
+        >
+          <li class="items-center">
+            <a
+              [routerLink]="['/admin/rol']"
+              class="text-xs uppercase p-3 font-bold block rounded-lg"
+              routerLinkActive
+              #roles="routerLinkActive"
+              [ngClass]="
+                roles.isActive
+                  ? 'text-white bg-red-500 hover:bg-red-600'
+                  : 'text-slate-600 hover:text-slate-500'
+              "
+            >
+              <fa-icon
+                [icon]="faUserShield"
+                class="fas fa-tv mr-2 text-sm"
+                [ngClass]="roles.isActive ? 'opacity-75' : 'text-blueGray-300'"
+              ></fa-icon>
+              Gestionar Roles
+            </a>
+          </li>
+        </ul>
 
-      <!-- Divider -->
-      <hr class="my-4 md:min-w-full" />
-      <!-- Usuarios -->
-      <h6
-        class="md:min-w-full text-slate-500 text-md font-mono capitalize font-semibold block pl-3 pt-1 pb-4 no-underline cursor-pointer"
-        (click)="toggleUsuariosCollapse()"
-      >
-        Usuarios
-        <fa-icon
-          [icon]="isUsuariosCollapsed ? faChevronDown : faChevronUp"
-          class="ml-2"
-        ></fa-icon>
-      </h6>
-      <ul
-        class="md:flex-col md:min-w-full flex flex-col list-none"
-        [ngClass]="{ hidden: isUsuariosCollapsed }"
-      >
-        <li class="items-center">
-          <a
-            [routerLink]="['/admin/user']"
-            class="text-xs uppercase p-3 font-bold block rounded-lg"
-            routerLinkActive
-            #usuarios="routerLinkActive"
-            [ngClass]="
-              usuarios.isActive
-                ? 'text-white bg-red-500 hover:bg-red-600'
-                : 'text-slate-600 hover:text-slate-500'
-            "
-          >
-            <fa-icon
-              [icon]="faUsers"
-              class="fas fa-tv mr-2 text-sm"
-              [ngClass]="usuarios.isActive ? 'opacity-75' : 'text-blueGray-300'"
-            ></fa-icon>
-            Gestionar Usuarios
-          </a>
-        </li>
-      </ul>
+        <!-- Divider -->
+        <hr class="my-4 md:min-w-full" />
+        <!-- Usuarios -->
+        <h6
+          class="md:min-w-full text-slate-500 text-md font-mono capitalize font-semibold block pl-3 pt-1 pb-4 no-underline cursor-pointer"
+          (click)="toggleUsuariosCollapse()"
+        >
+          Usuarios
+          <fa-icon
+            [icon]="isUsuariosCollapsed ? faChevronDown : faChevronUp"
+            class="ml-2"
+          ></fa-icon>
+        </h6>
+        <ul
+          class="md:flex-col md:min-w-full flex flex-col list-none"
+          [ngClass]="{ hidden: isUsuariosCollapsed }"
+        >
+          <li class="items-center">
+            <a
+              [routerLink]="['/admin/user']"
+              class="text-xs uppercase p-3 font-bold block rounded-lg"
+              routerLinkActive
+              #usuarios="routerLinkActive"
+              [ngClass]="
+                usuarios.isActive
+                  ? 'text-white bg-red-500 hover:bg-red-600'
+                  : 'text-slate-600 hover:text-slate-500'
+              "
+            >
+              <fa-icon
+                [icon]="faUsers"
+                class="fas fa-tv mr-2 text-sm"
+                [ngClass]="
+                  usuarios.isActive ? 'opacity-75' : 'text-blueGray-300'
+                "
+              ></fa-icon>
+              Gestionar Usuarios
+            </a>
+          </li>
+        </ul>
 
-      <!-- Divider -->
-      <hr class="my-4 md:min-w-full" />
-      <!-- Clientes -->
-      <h6
-        class="md:min-w-full text-slate-500 text-md font-mono capitalize font-semibold block pl-3 pt-1 pb-4 no-underline cursor-pointer"
-        (click)="toggleClientesCollapse()"
-      >
-        Clientes
-        <fa-icon
-          [icon]="isClientesCollapsed ? faChevronDown : faChevronUp"
-          class="ml-2"
-        ></fa-icon>
-      </h6>
-      <ul
-        class="md:flex-col md:min-w-full flex flex-col list-none"
-        [ngClass]="{ hidden: isClientesCollapsed }"
-      >
-        <li class="items-center">
-          <a
-            [routerLink]="['/admin/customer']"
-            class="text-xs uppercase p-3 font-bold block rounded-lg"
-            routerLinkActive
-            #clientes="routerLinkActive"
-            [ngClass]="
-              clientes.isActive
-                ? 'text-white bg-red-500 hover:bg-red-600'
-                : 'text-slate-600 hover:text-slate-500'
-            "
-          >
-            <fa-icon
-              [icon]="faUserFriends"
-              class="fas fa-tv mr-2 text-sm"
-              [ngClass]="clientes.isActive ? 'opacity-75' : 'text-blueGray-300'"
-            ></fa-icon>
-            Gestionar Clientes
-          </a>
-        </li>
-      </ul>
+        <!-- Divider -->
+        <hr class="my-4 md:min-w-full" />
+        <!-- Clientes -->
+        <h6
+          class="md:min-w-full text-slate-500 text-md font-mono capitalize font-semibold block pl-3 pt-1 pb-4 no-underline cursor-pointer"
+          (click)="toggleClientesCollapse()"
+        >
+          Clientes
+          <fa-icon
+            [icon]="isClientesCollapsed ? faChevronDown : faChevronUp"
+            class="ml-2"
+          ></fa-icon>
+        </h6>
+        <ul
+          class="md:flex-col md:min-w-full flex flex-col list-none"
+          [ngClass]="{ hidden: isClientesCollapsed }"
+        >
+          <li class="items-center">
+            <a
+              [routerLink]="['/admin/customer']"
+              class="text-xs uppercase p-3 font-bold block rounded-lg"
+              routerLinkActive
+              #clientes="routerLinkActive"
+              [ngClass]="
+                clientes.isActive
+                  ? 'text-white bg-red-500 hover:bg-red-600'
+                  : 'text-slate-600 hover:text-slate-500'
+              "
+            >
+              <fa-icon
+                [icon]="faUserFriends"
+                class="fas fa-tv mr-2 text-sm"
+                [ngClass]="
+                  clientes.isActive ? 'opacity-75' : 'text-blueGray-300'
+                "
+              ></fa-icon>
+              Gestionar Clientes
+            </a>
+          </li>
+        </ul>
       </ul>
       <hr class="my-4 md:min-w-full" />
       <h6
@@ -381,8 +410,6 @@
         </li>
       </ul>
       <!-- Agrega el nuevo colapso para Detalle producto e Inventario -->
-      
-      
     </div>
   </div>
 </nav>

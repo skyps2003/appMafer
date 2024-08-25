@@ -3,7 +3,7 @@ import { AbstractControl } from '@angular/forms';
 
 interface ValidationMessages {
   [key: string]: string;
-}
+} 
 
 @Component({
   selector: 'app-validation-error',
