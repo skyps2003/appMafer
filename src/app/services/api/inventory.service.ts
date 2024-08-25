@@ -3,14 +3,14 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Inventory, InventoryResponse } from '../../core/interfaces/inventory';
 import { BaseService } from '../helpers/base.service';
-import { API_URL } from '../../utils/apiurl';
+import { environment } from '../../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InventoryService extends BaseService{
 
-  private inventoryURL = API_URL+"inventory"
+  private inventoryURL = environment.API_URL+"inventory"
   private http = inject(HttpClient)
 
   protected getToken(): string | null {

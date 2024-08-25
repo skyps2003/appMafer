@@ -1,16 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User, UserResponse } from '../../core/interfaces/user';
+import { ResponseUser, User, UserResponse } from '../../core/interfaces/user';
 import { BaseService } from '../helpers/base.service';
-import { API_URL } from '../../utils/apiurl';
+import { environment } from '../../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService extends BaseService {
 
-  private userURL = API_URL+"user"
+  private userURL = environment.API_URL+"user"
   private http = inject(HttpClient)
 
   protected getToken(): string | null {
@@ -23,8 +23,8 @@ export class UserService extends BaseService {
     });
   }
 
-  getUser(id: number): Observable<User> {
-    return this.http.get<User>(`${this.userURL}/${id}`, {
+  getUser(id: number): Observable<ResponseUser> {
+    return this.http.get<ResponseUser>(`${this.userURL}/${id}`, {
       headers: this.getAuthHeaders(),
     });
   }
@@ -46,4 +46,13 @@ export class UserService extends BaseService {
       headers: this.getAuthHeaders(),
     });
   }
+  updateImage(id: number, image: string): Observable<{ message: string }> {
+    const payment = {
+      id: id,
+      img: image
+    }
+    return this.http.put<{ message: string }>(`${this.userURL}/updateImage/${id}`, payment, {
+      headers: this.getAuthHeaders(),
+    });
+}
 }

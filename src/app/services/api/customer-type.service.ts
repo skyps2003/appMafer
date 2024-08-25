@@ -3,14 +3,14 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CustomerType } from '../../core/interfaces/customer-type';
 import { BaseService } from '../helpers/base.service';
-import { API_URL } from '../../utils/apiurl';
 
+import { environment } from '../../../environments/environment.prod';
 @Injectable({
   providedIn: 'root'
 })
 export class CustomerTypeService extends BaseService {
 
-  private customerURL = API_URL+"customerType"
+  private customerURL = environment.API_URL+"customerType"
 
   private http = inject(HttpClient)
 

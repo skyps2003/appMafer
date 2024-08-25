@@ -3,14 +3,14 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Product, ProductResponse } from '../../core/interfaces/product';
 import { BaseService } from '../helpers/base.service';
-import { API_URL } from '../../utils/apiurl';
+import { environment } from '../../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService extends BaseService {
 
-  private productURL = API_URL+"product";
+  private productURL = environment.API_URL+"product";
   private http = inject(HttpClient);
 
   protected getToken(): string | null {

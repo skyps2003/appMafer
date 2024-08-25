@@ -3,13 +3,13 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseService } from '../helpers/base.service';
 import { Category, CategoryResponse } from '../../core/interfaces/category';
-import { API_URL } from '../../utils/apiurl';
 
+import { environment } from '../../../environments/environment.prod';
 @Injectable({
   providedIn: 'root',
 })
 export class CategoryService extends BaseService {
-  private categoryURL = API_URL+'category';
+  private categoryURL = environment.API_URL+'category';
 
   private http = inject(HttpClient);
 
