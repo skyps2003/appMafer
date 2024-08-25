@@ -23,3 +23,8 @@ export interface UserResponse{
     message: string
     data: User[]
 }
+
+export interface ResponseUser{
+    message: string
+    data: User
+}

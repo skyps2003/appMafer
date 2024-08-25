@@ -71,6 +71,7 @@ export interface Product {
     created_at: string;
     updated_at: string;
     sale: Sale;
+    image: string
   }
   
   export interface OrderResponse{
