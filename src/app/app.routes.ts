@@ -19,6 +19,7 @@ import { CategoryComponent } from './admin/maintenance/category/category.compone
 import { ProviderComponent } from './admin/maintenance/provider/provider.component';
 import { ProductComponent } from './admin/maintenance/product/product.component';
 import { OrderComponent } from './admin/order/order.component';
+import { ReportsComponent } from './components/reports/reports.component';
 
 export const routes: Routes = [
   {
@@ -33,6 +34,11 @@ export const routes: Routes = [
       {
         path: 'order',
         component: OrderComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'reports',
+        component: ReportsComponent,
         canActivate: [AuthGuard],
       },
       {
