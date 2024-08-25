@@ -8,11 +8,12 @@ import { FormsModule } from '@angular/forms';
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { NotificationService } from '../../services/helpers/notification-service.service';
 import Swal from 'sweetalert2';
+import { PaymentReceiptModalComponent } from '../../components/payment-receipt-modal/payment-receipt-modal.component';
 
 @Component({
   selector: 'app-order',
   standalone: true,
-  imports: [FontAwesomeModule, LoaderComponent, CommonModule, FormsModule],
+  imports: [FontAwesomeModule, LoaderComponent, CommonModule, FormsModule, PaymentReceiptModalComponent],
   templateUrl: './order.component.html',
   styleUrl: './order.component.css'
 })
@@ -25,6 +26,9 @@ export class OrderComponent {
   faArrowDown = faArrowDown
   isLoading: boolean = false
   private intervalId: any;
+  isModalOpen = false;
+  selectedOrderId: number | null = null;
+
 
   ngOnInit(){
     this.loadInitialOrders()
@@ -53,7 +57,6 @@ export class OrderComponent {
     )
   }
 
-  // Actualizar las órdenes sin mostrar el loader
   updateOrders(){
     this.orderService.getOrders().subscribe(
       (response: OrderResponse) => {
@@ -65,7 +68,6 @@ export class OrderComponent {
     )
   }
 
-  // Confirmar y actualizar el estado de la orden
   orderPay(id: number){
     Swal.fire({
       title: '¿Estás seguro?',
@@ -80,7 +82,7 @@ export class OrderComponent {
         this.orderService.updateStatus(id).subscribe(
           (response) => {
             this.notify.showSuccessToast(response.message)
-            this.updateOrders(); // Actualizar la lista de órdenes después de la actualización
+            this.updateOrders(); 
           },
           (error) => {
             this.notify.showErrorToast(error.error.message)
@@ -91,7 +93,17 @@ export class OrderComponent {
   }
 
   onSearch(){
-    // Lógica de búsqueda
+
+  }
+
+  onSubmitImage(id: number){
+    this.selectedOrderId = id;
+    this.isModalOpen = true;
+  }
+
+  closeModal(): void {
+    this.isModalOpen = false;
+    this.selectedOrderId = null; 
   }
 
 }

@@ -76,18 +76,17 @@
                         >
                           Estado
                         </th>
-                        
-                        <th
-                          scope="col"
-                          class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                        >
-                          Pago
-                        </th>
                         <th
                           scope="col"
                           class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                         >
                           Forma de pago
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                        >
+                          Comprobante de pago
                         </th>
                       </tr>
                     </thead>
@@ -96,37 +95,42 @@
                     >
                     @for (order of orders; track $index) {
                         <tr>
-                          <td class="px-6 py-4 whitespace-nowrap capitalize">
+                          <td class="px-6 py-4 whitespace-nowrap capitalize text-gray-800">
                             {{ order.sale.customer.name }}
                           </td>
-                          <td class="px-6 py-4 whitespace-nowrap capitalize">
+                          <td class="px-6 py-4 whitespace-nowrap capitalize text-gray-800">
                             {{ order.sale.inventory.detailed_product.product.name }}
                           </td>
                           <td class="px-6 py-4 whitespace-nowrap">
                             <img [src]="order.sale.inventory.detailed_product.product.img" alt="{{ order.sale.inventory.detailed_product.product.name }}" class="w-16 h-16 object-cover rounded">
                           </td>
                           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            ${{ order.sale.inventory.detailed_product.product.price }}
+                            S/ {{ order.sale.inventory.detailed_product.product.price }}
                           </td>
                           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            ${{ order.sale.total_sale }}
+                            S/ {{ order.sale.total_sale }}
                           </td>
                           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            <button (click)="orderPay(order.id)">
+                            <button (click)="orderPay(order.id)" title="Actualizar">
                                 <span [ngClass]="{'text-green-500': order.status === '1', 'text-red-500': order.status === '0'}">
                                     {{ order.status === '1' ? 'Completa' : 'Pendiente' }}
                                   </span>
                             </button>
                           </td>
                           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            <span [ngClass]="{'text-green-500': order.status === '1', 'text-red-500': order.status ===  '2'}">
-                                {{ order.status === '1' ? 'Pago Cancelado' : 'Pago pendiente' }}
-                              </span>
-                          </td>
-                          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             <span [ngClass]="{'text-blue-500': order.sale.payment_method_id === 1, 'text-green-500': order.sale.payment_method_id === 2}">
                                 {{ order.sale.payment_method_id !== 1 ? 'Con tarjeta' : 'En efectivo' }}
                               </span>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            @if (order.image) {
+                              <img [src]="order.image" alt="" class="w-14 h-14">
+                            }@else {
+                              <button (click)="onSubmitImage(order.id)">
+                                Subir
+                              </button>
+                            }
+                           
                           </td>
                         </tr>
                        }
@@ -141,3 +145,9 @@
     </section>
    
   }
+
+  <app-payment-receipt-modal 
+  *ngIf="isModalOpen" 
+  [orderId]="selectedOrderId" 
+  (closeModalEvent)="closeModal()">
+</app-payment-receipt-modal>
