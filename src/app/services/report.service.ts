@@ -1,14 +1,14 @@
 import { inject, Injectable } from '@angular/core';
-import { API_URL } from '../utils/apiurl';
+
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { environment } from '../../environments/environment.prod';
 @Injectable({
   providedIn: 'root'
 })
 export class ReportService {
 
-  private url = `${API_URL}report/sale`; // Asegúrate de que API_URL esté definido correctamente
+  private url = `${environment.API_URL}report/sale`; // Asegúrate de que API_URL esté definido correctamente
   private http = inject(HttpClient);
 
   // Método para obtener el reporte de ventas
